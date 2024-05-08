@@ -1,83 +1,54 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+import flagBlueImg from '../../assets/images/flag-blue.png';
 
-import { ExternalLink } from './external-link';
-import { MonoText } from './styled-text';
-import { Text, View } from './themed';
+import { View } from './themed';
 
-import Colors from '../../constants/Colors';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 export default function EditScreenInfo({ path }: { path: string }) {
   return (
-    <View>
-      <View style={styles.getStartedContainer}>
-        <Text
-          style={styles.getStartedText}
-          lightColor='rgba(0,0,0,0.8)'
-          darkColor='rgba(255,255,255,0.8)'
+    <View style={styles.container}>
+      <Text>Map App only using the space of the text</Text>
+      <MapView
+        style={styles.map}
+        provider={PROVIDER_GOOGLE}
+        region={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        }}
+        userInterfaceStyle='light'
+        showsUserLocation={true}
+      >
+        <Marker
+          // onPress={() => this.setState({ marker1: !this.state.marker1 })}
+          coordinate={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+          }}
+          centerOffset={{ x: -18, y: -60 }}
+          anchor={{ x: 0.69, y: 1 }}
+          image={flagBlueImg}
         >
-          Open up the code for this screen:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
-          darkColor='rgba(255,255,255,0.05)'
-          lightColor='rgba(0,0,0,0.05)'
-        >
-          <MonoText>{path}</MonoText>
-        </View>
-
-        <Text
-          style={styles.getStartedText}
-          lightColor='rgba(0,0,0,0.8)'
-          darkColor='rgba(255,255,255,0.8)'
-        >
-          Change any of the text, save the file, and your app will automatically
-          update.
-        </Text>
-      </View>
-
-      <View style={styles.helpContainer}>
-        <ExternalLink
-          style={styles.helpLink}
-          href='https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet'
-        >
-          <Text style={styles.helpLinkText} lightColor={Colors.light.tint}>
-            Tap here if your app doesn't automatically update after making
-            changes
-          </Text>
-        </ExternalLink>
-      </View>
+          <Text style={styles.marker}>X</Text>
+        </Marker>
+      </MapView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
+  container: {
+    flex: 1,
+    padding: 10,
   },
-  homeScreenFilename: {
-    marginVertical: 7,
+  map: {
+    flex: 1,
   },
-  codeHighlightContainer: {
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  helpContainer: {
-    marginTop: 15,
-    marginHorizontal: 20,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    textAlign: 'center',
+  marker: {
+    height: 10,
+    width: 10,
   },
 });
