@@ -1,4 +1,11 @@
-# Masters Leaderboard
+# Happy Hour App
+
+### WIP Notes
+- Initial map and marker set up on branch `map-setup`. Not merged yet.
+- API key set up for Google Maps - only for Android and is completely open. Needs to be locked down.
+- Maps [docs](https://docs.expo.dev/versions/latest/sdk/map-view/)
+- Need to make the marker smaller and show pub information
+- Second tab can display more detailed info 
 
 ## Installation
 
