@@ -28,7 +28,7 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
       style={styles.modal}
     >
       <View style={[styles.bottomSheet, { height: windowHeight * 0.3 }]}>
-        <View style={{ paddingVertical: 5 }}>
+        <View>
           <View
             style={{
               opacity: 0.2,

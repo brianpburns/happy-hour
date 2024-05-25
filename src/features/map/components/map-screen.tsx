@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { View } from './themed';
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { pubs } from 'src/test-data';
+import { usePubsContext } from 'src/state/pubs-context';
 import { PubMarker } from './marker';
 import { PubInfoDrawer } from './pub-info-drawer';
 
@@ -30,6 +30,7 @@ const mapStyle = [
 
 export const MapScreen = () => {
   const [selectedPub, setSelectedPub] = useState<number | null>(null);
+  const { pubs } = usePubsContext();
 
   const toggleDrawer = (id: number) => {
     setSelectedPub(selectedPub === id ? null : id);

@@ -1,10 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { usePubsContext } from 'src/state/pubs-context';
+import { ListItem } from './list-item';
 
 export const ListScreen = () => {
+  const { pubs } = usePubsContext();
+
   return (
     <View style={styles.container}>
       <View style={styles.separator} />
-      <Text>Carlos O'Bryan's</Text>
+      {pubs.map((pub) => (
+        <ListItem key={pub.id} pub={pub} />
+      ))}
     </View>
   );
 };
@@ -12,7 +18,7 @@ export const ListScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    margin: 1,
   },
   title: {
     fontSize: 20,
