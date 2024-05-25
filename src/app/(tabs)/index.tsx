@@ -1,11 +1,11 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
 
-import EditScreenInfo from '../../components/edit-screen-info';
+import MapScreen from '../../components/map-screen';
 
 export default function TabOneScreen() {
   return (
     <SafeAreaView style={styles.container}>
-      <EditScreenInfo path='app/(tabs)/index.tsx' />
+      <MapScreen />
     </SafeAreaView>
   );
 }

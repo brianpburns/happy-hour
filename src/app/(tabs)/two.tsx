@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import EditScreenInfo from '../../components/edit-screen-info';
+import MapScreen from '../../components/map-screen';
 import { Text, View } from '../../components/themed';
 
 export default function TabTwoScreen() {
@@ -12,7 +12,7 @@ export default function TabTwoScreen() {
         lightColor='#eee'
         darkColor='rgba(255,255,255,0.1)'
       />
-      <EditScreenInfo path='app/(tabs)/two.tsx' />
+      <MapScreen />
     </View>
   );
 }
