@@ -1,6 +1,6 @@
 import { SafeAreaView, StyleSheet } from 'react-native';
 
-import MapScreen from '../../components/map-screen';
+import { MapScreen } from '../../features/map';
 
 export default function TabOneScreen() {
   return (

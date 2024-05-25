@@ -1,4 +1,11 @@
-import { Dimensions, Modal, StyleSheet, Text, View } from 'react-native';
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Modal from 'react-native-modal';
 import { Pub } from 'src/types';
 
 interface Props {
@@ -14,12 +21,13 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
 
   return (
     <Modal
-      animationType='slide'
-      transparent={true}
-      visible={isOpen}
-      onRequestClose={close}
+      animationIn='slideInUp'
+      isVisible={isOpen}
+      coverScreen={false}
+      hasBackdrop={false}
+      style={styles.modal}
     >
-      <View style={[styles.bottomSheet, { height: windowHeight * 0.4 }]}>
+      <View style={[styles.bottomSheet, { height: windowHeight * 0.3 }]}>
         <View style={{ paddingVertical: 5 }}>
           <View
             style={{
@@ -41,6 +49,9 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
             <Text>Happy Hour:</Text>
             <Text>Start: {happyHours?.[0].startTime}</Text>
             <Text>End: {happyHours?.[0].endTime}</Text>
+            <TouchableOpacity onPress={close}>
+              <Text>Close</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -49,6 +60,12 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
 };
 
 const styles = StyleSheet.create({
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 0,
+  },
   bottomSheet: {
     position: 'absolute',
     left: 0,

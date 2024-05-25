@@ -1,6 +1,6 @@
 import { Marker } from 'react-native-maps';
 import { Pub } from 'src/types';
-import flagBlueImg from '../../assets/images/flag-blue.png';
+import flagBlueImg from '../../../../assets/images/beer.png';
 
 interface Props {
   pub: Pub;
@@ -14,7 +14,7 @@ export const PubMarker = ({ pub, onPress }: Props) => {
     <Marker
       onPress={onPress}
       coordinate={coordinate}
-      anchor={{ x: 0.55, y: 0.9 }}
+      anchor={{ x: 0.3, y: 0.75 }}
       image={flagBlueImg}
     />
   );

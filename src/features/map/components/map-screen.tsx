@@ -1,21 +1,42 @@
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import { Text, View } from './themed';
+import { View } from './themed';
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { pubs } from 'src/test-data';
 import { PubMarker } from './marker';
 import { PubInfoDrawer } from './pub-info-drawer';
 
-export default function MapScreen() {
+const mapStyle = [
+  {
+    featureType: 'poi',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    featureType: 'poi',
+    elementType: 'labels.text',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+];
+
+export const MapScreen = () => {
   const [selectedPub, setSelectedPub] = useState<number | null>(null);
+
+  const toggleDrawer = (id: number) => {
+    setSelectedPub(selectedPub === id ? null : id);
+  };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => setSelectedPub(1)}>
-        <Text>Open Drawer</Text>
-      </TouchableOpacity>
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
@@ -25,25 +46,27 @@ export default function MapScreen() {
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
-        userInterfaceStyle='light'
         showsUserLocation={true}
+        showsPointsOfInterest={false}
+        customMapStyle={mapStyle}
+        toolbarEnabled={false}
       >
         {pubs.map((pub) => (
           <PubMarker
             key={pub.id}
             pub={pub}
-            onPress={() => setSelectedPub(pub.id)}
+            onPress={() => toggleDrawer(pub.id)}
           />
         ))}
       </MapView>
       <PubInfoDrawer
         pub={pubs.find((pub) => pub.id === selectedPub)}
-        isOpen={!!selectedPub}
+        isOpen={selectedPub !== null}
         close={() => setSelectedPub(null)}
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
