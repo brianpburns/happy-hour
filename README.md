@@ -1,11 +1,11 @@
 # Happy Hour App
 
 ### WIP Notes
-- Initial map and marker set up on branch `map-setup`. Not merged yet.
 - API key set up for Google Maps - only for Android and is completely open. Needs to be locked down.
 - Maps [docs](https://docs.expo.dev/versions/latest/sdk/map-view/)
-- Need to make the marker smaller and show pub information
-- Second tab can display more detailed info 
+- See todos in Notes app
+- Set up and styled a list for the second tab. Only shows basic info atm. No real updates for if it's happy hour.
+- Want to show some indicator that it's happy hour on the map.
 
 ## Installation
 
