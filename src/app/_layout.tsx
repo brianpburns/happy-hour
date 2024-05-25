@@ -9,6 +9,7 @@ import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
+import { PubsContextProvider } from 'src/state/pubs-context';
 import { useColorScheme } from './useColorScheme';
 
 export {
@@ -53,7 +54,9 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Slot />
+      <PubsContextProvider>
+        <Slot />
+      </PubsContextProvider>
     </ThemeProvider>
   );
 }

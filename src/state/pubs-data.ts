@@ -11,26 +11,10 @@ export const pubs: Pub[] = [
       longitude: -123.14535265106639,
     },
     happyHours: [
-      {
-        day: 1,
-        startTime: 14,
-        endTime: 17,
-      },
-      {
-        day: 1,
-        startTime: 21,
-        endTime: 24,
-      },
-      {
-        day: 6,
-        startTime: 14,
-        endTime: 17,
-      },
-      {
-        day: 6,
-        startTime: 21,
-        endTime: 1,
-      },
+      { day: 1, startTime: 14, endTime: 17 },
+      { day: 1, startTime: 21, endTime: 24 },
+      { day: 6, startTime: 14, endTime: 17 },
+      { day: 6, startTime: 21, endTime: 1 },
     ],
   },
   {
@@ -43,16 +27,8 @@ export const pubs: Pub[] = [
       longitude: -123.14719794566595,
     },
     happyHours: [
-      {
-        day: 6,
-        startTime: 15,
-        endTime: 18,
-      },
-      {
-        day: 6,
-        startTime: 21,
-        endTime: 24,
-      },
+      { day: 6, startTime: 15, endTime: 18 },
+      { day: 6, startTime: 21, endTime: 24 },
     ],
   },
 ];
