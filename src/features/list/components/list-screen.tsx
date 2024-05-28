@@ -1,3 +1,4 @@
+import Constants from 'expo-constants';
 import { StyleSheet, View } from 'react-native';
 import { usePubsContext } from 'src/state/pubs-context';
 import { ListItem } from './list-item';
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 1,
+    marginTop: Constants.statusBarHeight,
   },
   title: {
     fontSize: 20,

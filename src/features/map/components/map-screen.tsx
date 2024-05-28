@@ -72,7 +72,6 @@ export const MapScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
   },
   map: {
     flex: 1,
