@@ -1,22 +1,79 @@
 import { Pub } from 'src/types';
 
-export const useHappyHour = (pub: Pub) => {
+interface HappyHourStatus {
+  status: 'past' | 'active' | 'upcoming' | 'later';
+  startTime: number;
+  startTimeDisplay: string;
+  endTime: number;
+  endTimeDisplay: string;
+  day: number;
+  dayDisplay: string;
+}
+
+const displayTime = (time: number) => {
+  return time > 12 ? `${time - 12}pm` : `${time}am`;
+};
+
+const displayDay = (day: number) => {
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  return days[day];
+};
+
+export const useTodaysHappyHours = (pub?: Pub) => {
   const today = new Date();
   const day = today.getDay();
   const currentHour = new Date().getHours();
 
-  const todaysHappyHour = pub.happyHours.find(
-    (happyHour) => happyHour.day === day
-  );
+  let nextHappyHour: HappyHourStatus | undefined = undefined;
+  const todaysHappyHours: HappyHourStatus[] = [];
 
-  if (!todaysHappyHour) return 'inactive';
-  const { startTime, endTime } = todaysHappyHour;
-
-  if (currentHour >= startTime && currentHour <= endTime) {
-    return 'active';
-  } else if (currentHour >= startTime - 1) {
-    return 'upcoming';
-  } else {
-    return 'inactive';
+  if (!pub) {
+    return { todaysHappyHours, nextHappyHour };
   }
+
+  const todaysHH = pub.happyHours.filter((happyHour) => happyHour.day === day);
+
+  const formatData = (
+    happyHour: Omit<
+      HappyHourStatus,
+      'startTimeDisplay' | 'endTimeDisplay' | 'dayDisplay'
+    >
+  ) => {
+    const startTimeDisplay = displayTime(happyHour.startTime);
+    const endTimeDisplay = displayTime(happyHour.endTime);
+    const dayDisplay = displayDay(happyHour.day);
+
+    return { ...happyHour, startTimeDisplay, endTimeDisplay, dayDisplay };
+  };
+
+  todaysHH.map((happyHour) => {
+    const { startTime, endTime } = happyHour;
+    let status: HappyHourStatus['status'] = 'later';
+
+    if (currentHour >= endTime) {
+      status = 'past';
+    } else if (currentHour >= startTime && currentHour <= endTime) {
+      status = 'active';
+    } else if (currentHour >= startTime - 1) {
+      status = 'upcoming';
+    }
+
+    const data = formatData({ status, startTime, endTime, day });
+    todaysHappyHours.push(data);
+    if (!nextHappyHour) {
+      nextHappyHour = data;
+    }
+  });
+
+  if (!nextHappyHour) {
+    const data = pub.happyHours.find((happyHour) => happyHour.day > day);
+
+    if (data) {
+      const { startTime, endTime, day } = data;
+
+      nextHappyHour = formatData({ status: 'later', startTime, endTime, day });
+    }
+  }
+
+  return { todaysHappyHours, nextHappyHour };
 };

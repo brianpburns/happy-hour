@@ -6,17 +6,23 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useHappyHour } from 'src/features/shared/hooks/use-happy-hour';
+import { useTodaysHappyHours } from 'src/features/shared/hooks/use-happy-hour';
 import { Pub } from 'src/types';
 
 export const ListItem = ({ pub }: { pub: Pub }) => {
   const { name, website, logo } = pub;
-  const happyHourStatus = useHappyHour(pub);
+  const { nextHappyHour } = useTodaysHappyHours(pub);
   // const { navigate } = useNavigation();
 
   const handlePress = () => {
     // navigate('PubDetails', { pub });
   };
+
+  const happyHourText = nextHappyHour
+    ? nextHappyHour.status === 'active'
+      ? 'Now'
+      : `${nextHappyHour.startTimeDisplay} ${nextHappyHour.dayDisplay}`
+    : 'None';
 
   return (
     <TouchableOpacity onPress={handlePress}>
@@ -35,9 +41,7 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
           </Text>
         </View>
         <View style={styles.happyHourContainer}>
-          <Text style={styles.text}>
-            {happyHourStatus === 'active' ? 'Now' : '10pm'}
-          </Text>
+          <Text style={styles.text}>{happyHourText}</Text>
         </View>
       </View>
     </TouchableOpacity>
