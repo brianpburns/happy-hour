@@ -27,6 +27,7 @@ export default function TabLayout() {
         name='index'
         options={{
           title: 'Map View',
+          tabBarShowLabel: false,
           tabBarIcon: ({ color }) => <TabBarIcon name='map' color={color} />,
         }}
       />
@@ -34,6 +35,7 @@ export default function TabLayout() {
         name='two'
         options={{
           title: 'List View',
+          tabBarShowLabel: false,
           tabBarIcon: ({ color }) => (
             <TabBarIcon name='list-ul' color={color} />
           ),
