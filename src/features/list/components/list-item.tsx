@@ -6,12 +6,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { getTextColor } from 'src/features/shared/helpers/get-text-color';
 import { useTodaysHappyHours } from 'src/features/shared/hooks/use-happy-hour';
 import { Pub } from 'src/types';
 
 export const ListItem = ({ pub }: { pub: Pub }) => {
   const { name, website, logo } = pub;
   const { nextHappyHour } = useTodaysHappyHours(pub);
+  const today = new Date().getDay();
   // const { navigate } = useNavigation();
 
   const handlePress = () => {
@@ -21,7 +23,9 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
   const happyHourText = nextHappyHour
     ? nextHappyHour.status === 'active'
       ? 'Now'
-      : `${nextHappyHour.startTimeDisplay} ${nextHappyHour.dayDisplay}`
+      : `${nextHappyHour.startTimeDisplay} ${
+          nextHappyHour.day !== today ? nextHappyHour.dayDisplay : ''
+        }`
     : 'None';
 
   return (
@@ -41,7 +45,14 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
           </Text>
         </View>
         <View style={styles.happyHourContainer}>
-          <Text style={styles.text}>{happyHourText}</Text>
+          <Text
+            style={{
+              ...styles.text,
+              color: nextHappyHour ? getTextColor(nextHappyHour?.status) : '',
+            }}
+          >
+            {happyHourText}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
