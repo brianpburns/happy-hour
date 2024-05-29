@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import { getTextColor } from 'src/features/shared/helpers/get-text-color';
 import { useTodaysHappyHours } from 'src/features/shared/hooks/use-happy-hour';
 import { Pub } from 'src/types';
 
@@ -19,6 +20,13 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
   const windowHeight = Dimensions.get('window').height;
   const name = pub?.name;
   const { todaysHappyHours, nextHappyHour } = useTodaysHappyHours(pub);
+  const today = new Date().getDay();
+
+  const laterHappyHours = todaysHappyHours.filter(
+    (hh) =>
+      !['past', 'active'].includes(hh.status) &&
+      hh.startTime !== nextHappyHour?.startTime
+  );
 
   return (
     <Modal
@@ -33,15 +41,19 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
           <View style={styles.handle} />
           <View style={styles.textContainer}>
             <Text style={styles.heading}>{name}</Text>
-            <Text>Today</Text>
-            {todaysHappyHours.map(
+            <Text>Next Happy Hour</Text>
+            {nextHappyHour ? (
+              <Text style={{ color: getTextColor(nextHappyHour.status) }}>
+                {nextHappyHour.startTimeDisplay}-{nextHappyHour.endTimeDisplay}{' '}
+                {nextHappyHour.day !== today ? nextHappyHour.dayDisplay : ''}
+              </Text>
+            ) : (
+              <Text>None upcoming</Text>
+            )}
+            {!!laterHappyHours.length && <Text>Later</Text>}
+            {laterHappyHours.map(
               ({ status, startTimeDisplay, endTimeDisplay }) => {
-                const color =
-                  status === 'active'
-                    ? 'green'
-                    : status === 'upcoming'
-                    ? 'orange'
-                    : status === 'past' && 'grey';
+                const color = getTextColor(status);
                 const style = color ? { color } : {};
 
                 return (
@@ -54,14 +66,6 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
                 );
               }
             )}
-            {!todaysHappyHours.length &&
-              (nextHappyHour ? (
-                <Text>
-                  {nextHappyHour.startTimeDisplay} {nextHappyHour.dayDisplay}
-                </Text>
-              ) : (
-                <Text>None upcoming</Text>
-              ))}
             <TouchableOpacity onPress={close}>
               <Text>Close</Text>
             </TouchableOpacity>
@@ -76,7 +80,6 @@ const styles = StyleSheet.create({
   modal: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     margin: 0,
   },
   heading: {
@@ -91,16 +94,14 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   textContainer: {
-    flex: 0,
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   bottomSheet: {
     position: 'absolute',
     left: 0,
     right: 0,
     justifyContent: 'flex-start',
-    alignItems: 'center',
     backgroundColor: 'white',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
