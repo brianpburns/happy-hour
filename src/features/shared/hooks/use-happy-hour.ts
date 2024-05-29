@@ -1,17 +1,9 @@
-import { Pub } from 'src/types';
-
-interface HappyHourStatus {
-  status: 'past' | 'active' | 'upcoming' | 'later';
-  startTime: number;
-  startTimeDisplay: string;
-  endTime: number;
-  endTimeDisplay: string;
-  day: number;
-  dayDisplay: string;
-}
+import { HappyHourStatus, Pub } from 'src/types';
 
 const displayTime = (time: number) => {
-  return time > 12 ? `${time - 12}pm` : `${time}am`;
+  if (time === 24) return '12am';
+
+  return time >= 12 ? `${time - 12}pm` : `${time}am`;
 };
 
 const displayDay = (day: number) => {
@@ -54,13 +46,13 @@ export const useTodaysHappyHours = (pub?: Pub) => {
       status = 'past';
     } else if (currentHour >= startTime && currentHour <= endTime) {
       status = 'active';
-    } else if (currentHour >= startTime - 1) {
+    } else if (currentHour >= startTime - 2) {
       status = 'upcoming';
     }
 
     const data = formatData({ status, startTime, endTime, day });
     todaysHappyHours.push(data);
-    if (!nextHappyHour) {
+    if (!nextHappyHour && status !== 'past') {
       nextHappyHour = data;
     }
   });
