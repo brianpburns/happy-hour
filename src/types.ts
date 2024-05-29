@@ -15,3 +15,13 @@ export interface Pub {
   };
   happyHours: HappyHour[];
 }
+
+export interface HappyHourStatus {
+  status: 'past' | 'active' | 'upcoming' | 'later';
+  startTime: number;
+  startTimeDisplay: string;
+  endTime: number;
+  endTimeDisplay: string;
+  day: number;
+  dayDisplay: string;
+}

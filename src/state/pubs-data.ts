@@ -13,8 +13,18 @@ export const pubs: Pub[] = [
     happyHours: [
       { day: 1, startTime: 14, endTime: 17 },
       { day: 1, startTime: 21, endTime: 24 },
+      { day: 2, startTime: 14, endTime: 17 },
+      { day: 2, startTime: 21, endTime: 24 },
+      { day: 3, startTime: 14, endTime: 17 },
+      { day: 3, startTime: 21, endTime: 24 },
+      { day: 4, startTime: 14, endTime: 17 },
+      { day: 4, startTime: 21, endTime: 24 },
+      { day: 5, startTime: 14, endTime: 17 },
+      { day: 5, startTime: 21, endTime: 24 },
       { day: 6, startTime: 14, endTime: 17 },
       { day: 6, startTime: 21, endTime: 1 },
+      { day: 7, startTime: 14, endTime: 17 },
+      { day: 7, startTime: 21, endTime: 24 },
     ],
   },
   {
