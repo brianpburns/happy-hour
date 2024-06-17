@@ -28,20 +28,23 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
         }`
     : 'None';
 
+  // Remove http:// and https:// from website
+  const websiteDomain = website.replace(/(^\w+:|^)\/\//, '').split('/')[0];
+
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.listItem}>
-        <Image
-          source={{ uri: logo }}
-          style={{ width: 50, height: 50, resizeMode: 'contain', margin: 1 }}
-        />
+        <Image source={{ uri: logo }} style={styles.image} />
         <View style={styles.textContainer}>
           <Text style={styles.title}>{name}</Text>
-          <Text
-            style={{ ...styles.text, color: 'blue' }}
-            onPress={() => Linking.openURL(website)}
-          >
-            {website}
+          <Text style={styles.text}>
+            Menu -{' '}
+            <Text
+              style={{ ...styles.text, color: 'blue' }}
+              onPress={() => Linking.openURL(website)}
+            >
+              {websiteDomain}
+            </Text>
           </Text>
         </View>
         <View style={styles.happyHourContainer}>
@@ -68,6 +71,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 1,
   },
+  image: { width: 50, height: 50, resizeMode: 'contain', margin: 1 },
   textContainer: {
     marginLeft: 10,
   },

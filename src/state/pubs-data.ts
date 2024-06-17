@@ -4,8 +4,8 @@ export const pubs: Pub[] = [
   {
     id: 1,
     name: `Carlos O'Bryan's`,
-    website: 'https://www.kobcob.com/',
     logo: 'https://www.kobcob.com/files/logo-1.png',
+    website: 'https://www.kobcob.com/happy-hour/',
     coordinate: {
       latitude: 49.265325804046235,
       longitude: -123.14535265106639,
@@ -30,8 +30,8 @@ export const pubs: Pub[] = [
   {
     id: 2,
     name: `Romer's`,
-    website: 'https://romersburgerbar.com/',
     logo: 'https://romersburgerbar.com/wp-content/themes/_tk-master/images/logo_dark.png',
+    website: 'https://romersburgerbar.com/menus/drink-deals-happy-hour/',
     coordinate: {
       latitude: 49.268299099229296,
       longitude: -123.14719794566595,
