@@ -36,6 +36,8 @@ export const MapScreen = () => {
     setSelectedPub(selectedPub === id ? null : id);
   };
 
+  const selectedPubData = pubs.find((pub) => pub.id === selectedPub);
+
   return (
     <View style={styles.container}>
       <MapView
@@ -60,11 +62,13 @@ export const MapScreen = () => {
           />
         ))}
       </MapView>
-      <PubInfoDrawer
-        pub={pubs.find((pub) => pub.id === selectedPub)}
-        isOpen={selectedPub !== null}
-        close={() => setSelectedPub(null)}
-      />
+      {selectedPubData && (
+        <PubInfoDrawer
+          pub={selectedPubData}
+          isOpen={selectedPub !== null}
+          close={() => setSelectedPub(null)}
+        />
+      )}
     </View>
   );
 };
