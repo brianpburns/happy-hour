@@ -23,8 +23,8 @@ export const pubs: Pub[] = [
       { day: 5, startTime: 21, endTime: 24 },
       { day: 6, startTime: 14, endTime: 17 },
       { day: 6, startTime: 21, endTime: 1 },
-      { day: 7, startTime: 14, endTime: 17 },
-      { day: 7, startTime: 21, endTime: 24 },
+      { day: 0, startTime: 14, endTime: 17 },
+      { day: 0, startTime: 21, endTime: 24 },
     ],
   },
   {

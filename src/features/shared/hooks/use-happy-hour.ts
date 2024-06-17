@@ -11,17 +11,13 @@ const displayDay = (day: number) => {
   return days[day];
 };
 
-export const useTodaysHappyHours = (pub?: Pub) => {
+export const useTodaysHappyHours = (pub: Pub) => {
   const today = new Date();
   const day = today.getDay();
   const currentHour = new Date().getHours();
 
   let nextHappyHour: HappyHourStatus | undefined = undefined;
   const todaysHappyHours: HappyHourStatus[] = [];
-
-  if (!pub) {
-    return { todaysHappyHours, nextHappyHour };
-  }
 
   const todaysHH = pub.happyHours.filter((happyHour) => happyHour.day === day);
 
