@@ -31,10 +31,8 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
   );
 
   const nextHappyHourText =
-    nextHappyHour?.day !== today
-      ? `${nextHappyHour?.dayDisplay} `
-      : '' +
-        `${nextHappyHour.startTimeDisplay}-${nextHappyHour.endTimeDisplay}`;
+    (nextHappyHour?.day !== today ? `${nextHappyHour?.dayDisplay} ` : '') +
+    `${nextHappyHour?.startTimeDisplay} - ${nextHappyHour?.endTimeDisplay}`;
 
   return (
     <Modal
