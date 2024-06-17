@@ -27,7 +27,8 @@ export const useTodaysHappyHours = (pub: Pub) => {
       'startTimeDisplay' | 'endTimeDisplay' | 'dayDisplay'
     >
   ) => {
-    const startTimeDisplay = displayTime(happyHour.startTime);
+    const startTimeDisplay =
+      happyHour.status === 'active' ? 'Now' : displayTime(happyHour.startTime);
     const endTimeDisplay = displayTime(happyHour.endTime);
     const dayDisplay = displayDay(happyHour.day);
 
