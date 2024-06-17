@@ -1,10 +1,11 @@
 import { FontAwesome6 } from '@expo/vector-icons';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { Marker } from 'react-native-maps';
 import { getIconColor } from 'src/features/shared/helpers/get-text-color';
 import { useTodaysHappyHours } from 'src/features/shared/hooks/use-happy-hour';
 import { Pub } from 'src/types';
+import beerLogo from '../../../../assets/images/beer.png';
 
 interface Props {
   pub: Pub;
@@ -14,7 +15,7 @@ interface Props {
 export const PubMarker = ({ pub, onPress }: Props) => {
   const { coordinate } = pub;
   const { nextHappyHour } = useTodaysHappyHours(pub);
-  const { status } = nextHappyHour ?? { status: 'past' };
+  const status = nextHappyHour?.status ?? 'past';
   const color = getIconColor(status);
 
   return (
@@ -23,17 +24,20 @@ export const PubMarker = ({ pub, onPress }: Props) => {
       coordinate={coordinate}
       anchor={{ x: 0.1, y: 0.8 }}
     >
-      <FontAwesome6
-        name='location-pin'
-        size={35}
-        style={{ ...styles.icon, color }}
-      />
+      <FontAwesome6 name='location-pin' size={35} style={{ color }} />
+      <Image source={beerLogo} style={styles.beerIcon} />
     </Marker>
   );
 };
 
 const styles = StyleSheet.create({
-  icon: {
-    color: '#faa84b',
+  beerIcon: {
+    width: 20,
+    height: 20,
+    position: 'absolute',
+    left: 3,
+    top: 3,
+    backgroundColor: 'white',
+    borderRadius: 20,
   },
 });
