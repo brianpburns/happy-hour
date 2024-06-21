@@ -3,9 +3,9 @@
 ### WIP Notes
 - API key set up for Google Maps - only for Android and is completely open. Needs to be locked down.
 - Maps [docs](https://docs.expo.dev/versions/latest/sdk/map-view/)
+- App permissions for Android set up and test
+- Release has been successfully created for Android and pushed to the Play Console.
 - See todos in Notes app
-- Set up and styled a list for the second tab. Only shows basic info atm. No real updates for if it's happy hour.
-- Want to show some indicator that it's happy hour on the map.
 
 ## Installation
 
@@ -23,26 +23,18 @@ npm install
 
 ## Development
 
-iOS
+Expo is used to run locally. It will present options of which environment to use.
 
 ```
-npm run ios
+npm start
 ```
 
-If there are errors, try running `pod install` in the ios directory.
-
-Android:
-
-- First start the emulator in Android Sudio -> Virtual Devices.
+## Production Build and Deploy
 
 ```
-npm run android
-```
-
-## Production Build
-
-```
-npm run build:prod
+npm run build:android
+npm run build:ios
+npm run build:all
 ```
 
 ## Testing
