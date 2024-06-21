@@ -13,13 +13,23 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Your location is used to find nearby happy hours."
+      }
     },
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDSfLKyNWS98QTrpYaL0LGl7oHZpAWu1VE"
+        }
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": ["android.permission.ACCESS_FINE_LOCATION"],
+      "package": "com.burnspbrian.happyhour"
     },
     "web": {
       "bundler": "metro",
@@ -30,6 +40,14 @@
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "b1636bc5-8dbd-40b7-87cc-8bc851e08fae"
+      }
     }
   }
 }
