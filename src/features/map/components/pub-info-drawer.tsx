@@ -104,8 +104,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 22,
-    fontWeight: '500',
-    lineHeight: 30,
+    lineHeight: 32,
   },
   handle: {
     opacity: 0.3,
