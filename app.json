@@ -36,10 +36,7 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      ["react-native-permissions", { "iosPermissions": ["LocationWhenInUse"] }]
-    ],
+    "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": true
