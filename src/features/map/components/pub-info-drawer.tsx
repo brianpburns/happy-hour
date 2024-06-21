@@ -29,6 +29,9 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
       !['past', 'active'].includes(hh.status) &&
       hh.startTime !== nextHappyHour?.startTime
   );
+  const laterStartTimeDisplay = laterHappyHours[0]?.startTimeDisplay;
+  const laterEndTimeDisplay = laterHappyHours[0]?.endTimeDisplay;
+  const laterStatus = laterHappyHours[0]?.status;
 
   const nextHappyHourText =
     (nextHappyHour?.day !== today ? `${nextHappyHour?.dayDisplay} ` : '') +
@@ -49,7 +52,7 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
             <View style={styles.textContainer}>
               <Text style={styles.heading}>{name}</Text>
               <Text style={styles.text}>
-                Next happy hour:{' '}
+                Happy hour:{' '}
                 {nextHappyHour ? (
                   <Text
                     style={{
@@ -63,6 +66,16 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
                   <Text>None upcoming</Text>
                 )}
               </Text>
+              {laterStartTimeDisplay && (
+                <Text>
+                  Later:{' '}
+                  <Text
+                    style={{ ...styles.text, color: getTextColor(laterStatus) }}
+                  >
+                    {laterStartTimeDisplay} - {laterEndTimeDisplay}
+                  </Text>
+                </Text>
+              )}
               <Text style={styles.text}>
                 Menu -{' '}
                 <Text
@@ -72,22 +85,6 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
                   {websiteDomain}
                 </Text>
               </Text>
-              {!!laterHappyHours.length && <Text>Later</Text>}
-              {laterHappyHours.map(
-                ({ status, startTimeDisplay, endTimeDisplay }) => {
-                  const color = getTextColor(status);
-                  const style = color ? { color } : {};
-
-                  return (
-                    <Text
-                      key={startTimeDisplay}
-                      style={{ ...style, fontWeight: '600', fontSize: 16 }}
-                    >
-                      {startTimeDisplay} - {endTimeDisplay}
-                    </Text>
-                  );
-                }
-              )}
               <TouchableOpacity onPress={close}>
                 <Text>Close</Text>
               </TouchableOpacity>
@@ -106,8 +103,9 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   heading: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontWeight: '500',
+    lineHeight: 30,
   },
   handle: {
     opacity: 0.3,
@@ -123,7 +121,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {},
   text: {
-    fontSize: 14,
+    lineHeight: 22,
   },
   bottomSheet: {
     position: 'absolute',

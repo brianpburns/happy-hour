@@ -24,7 +24,7 @@ export const PubMarker = ({ pub, onPress }: Props) => {
       coordinate={coordinate}
       anchor={{ x: 0.1, y: 0.8 }}
     >
-      <FontAwesome6 name='location-pin' size={35} style={{ color }} />
+      <FontAwesome6 name='location-pin' size={45} style={{ color }} />
       <Image source={beerLogo} style={styles.beerIcon} />
     </Marker>
   );
@@ -32,11 +32,11 @@ export const PubMarker = ({ pub, onPress }: Props) => {
 
 const styles = StyleSheet.create({
   beerIcon: {
-    width: 20,
-    height: 20,
+    width: 25,
+    height: 25,
     position: 'absolute',
-    left: 3,
-    top: 3,
+    left: 5,
+    top: 4,
     backgroundColor: 'white',
     borderRadius: 20,
   },

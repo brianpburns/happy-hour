@@ -80,10 +80,6 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
-  marker: {
-    height: 10,
-    width: 10,
-  },
   markerBlurb: {
     backgroundColor: 'white',
     padding: 10,
