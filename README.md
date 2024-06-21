@@ -1,5 +1,7 @@
 # Happy Hour App
 
+[Expo Dashboard](https://expo.dev/accounts/burnspbrian/projects/happy-hour)
+
 ### WIP Notes
 - API key set up for Google Maps - only for Android and is completely open. Needs to be locked down.
 - Maps [docs](https://docs.expo.dev/versions/latest/sdk/map-view/)
@@ -36,6 +38,12 @@ npm run build:android
 npm run build:ios
 npm run build:all
 ```
+
+### Android
+
+Note, this can likely be optimized.
+
+Once the build completes, follow the link and download it. Then open [internal testing releases](https://play.google.com/console/u/0/developers/5251866793913232474/app/4972697416915556688/tracks/internal-testing?tab=releases) and upload it there.
 
 ## Testing
 
