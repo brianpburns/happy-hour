@@ -41,9 +41,9 @@ npm run build:all
 
 ### Android
 
-Note, this can likely be optimized.
+Note, this can likely be optimized. It has only be done for internal testing releases so far.
 
-Once the build completes, follow the link and download it. Then open [internal testing releases](https://play.google.com/console/u/0/developers/5251866793913232474/app/4972697416915556688/tracks/internal-testing?tab=releases) and upload it there.
+Once the build completes, follow the link and download it. Then open [internal testing releases](https://play.google.com/console/u/0/developers/5251866793913232474/app/4972697416915556688/tracks/internal-testing?tab=releases) and upload it there. It should then be available on the Google Play store within an hour. 
 
 ## Testing
 
