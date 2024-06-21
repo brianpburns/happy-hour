@@ -5,6 +5,7 @@ import { View } from './themed';
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { usePubsContext } from 'src/state/pubs-context';
+import { useLocation } from '../hooks/use-location';
 import { PubMarker } from './marker';
 import { PubInfoDrawer } from './pub-info-drawer';
 
@@ -31,12 +32,13 @@ const mapStyle = [
 export const MapScreen = () => {
   const [selectedPub, setSelectedPub] = useState<number | null>(null);
   const { pubs } = usePubsContext();
+  const selectedPubData = pubs.find((pub) => pub.id === selectedPub);
+  // TODO: Handle user rejection of location permissions
+  const { coords } = useLocation();
 
   const toggleDrawer = (id: number) => {
     setSelectedPub(selectedPub === id ? null : id);
   };
-
-  const selectedPubData = pubs.find((pub) => pub.id === selectedPub);
 
   return (
     <View style={styles.container}>
@@ -44,8 +46,8 @@ export const MapScreen = () => {
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         region={{
-          latitude: 49.265325804046235,
-          longitude: -123.14535265106639,
+          latitude: coords.latitude,
+          longitude: coords.longitude,
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
