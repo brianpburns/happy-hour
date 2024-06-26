@@ -1,40 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { View } from './themed';
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { usePubsContext } from 'src/state/pubs-context';
-import { useLocation } from '../hooks/use-location';
+import { useMapParams } from '../hooks/use-map-params';
 import { PubMarker } from './marker';
 import { PubInfoDrawer } from './pub-info-drawer';
 
 const mapStyle = [
   {
     featureType: 'poi',
-    stylers: [
-      {
-        visibility: 'off',
-      },
-    ],
+    stylers: [{ visibility: 'off' }],
   },
   {
     featureType: 'poi',
     elementType: 'labels.text',
-    stylers: [
-      {
-        visibility: 'off',
-      },
-    ],
+    stylers: [{ visibility: 'off' }],
   },
 ];
 
 export const MapScreen = () => {
-  const [selectedPub, setSelectedPub] = useState<number | null>(null);
-  const { pubs } = usePubsContext();
-  const selectedPubData = pubs.find((pub) => pub.id === selectedPub);
-  // TODO: Handle user rejection of location permissions
-  const { coords } = useLocation();
+  const {
+    pubs,
+    selectedPub,
+    setSelectedPub,
+    selectedPubData,
+    latitude,
+    longitude,
+  } = useMapParams();
 
   const toggleDrawer = (id: number) => {
     setSelectedPub(selectedPub === id ? null : id);
@@ -46,8 +40,8 @@ export const MapScreen = () => {
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         region={{
-          latitude: coords.latitude,
-          longitude: coords.longitude,
+          latitude,
+          longitude,
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}

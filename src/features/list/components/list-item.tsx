@@ -1,4 +1,5 @@
 import { Theme, useTheme } from '@react-navigation/native';
+import { router } from 'expo-router';
 import { useMemo } from 'react';
 import {
   Image,
@@ -14,15 +15,18 @@ import { useTodaysHappyHours } from 'src/features/shared/hooks/use-happy-hour';
 import { Pub } from 'src/types';
 
 export const ListItem = ({ pub }: { pub: Pub }) => {
-  const { name, website, logo } = pub;
+  const { name, website, logo, id, coordinates } = pub;
   const { nextHappyHour } = useTodaysHappyHours(pub);
   const today = new Date().getDay();
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);
-  // const { navigate } = useNavigation();
 
   const handlePress = () => {
-    // navigate('PubDetails', { pub });
+    const { latitude, longitude } = coordinates;
+    router.push({
+      pathname: `/(tabs)`,
+      params: { pubId: id, latitude, longitude },
+    });
   };
 
   const happyHourText = nextHappyHour
