@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const PubMarker = ({ pub, onPress }: Props) => {
-  const { coordinate } = pub;
+  const { coordinates } = pub;
   const { nextHappyHour } = useTodaysHappyHours(pub);
   const status = nextHappyHour?.status ?? 'past';
   const color = getIconColor(status);
@@ -21,7 +21,7 @@ export const PubMarker = ({ pub, onPress }: Props) => {
   return (
     <Marker
       onPress={onPress}
-      coordinate={coordinate}
+      coordinate={coordinates}
       anchor={{ x: 0.1, y: 0.8 }}
       tracksViewChanges={false}
     >
