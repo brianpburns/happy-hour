@@ -21,14 +21,8 @@ const mapStyle = [
 ];
 
 export const MapScreen = () => {
-  const {
-    pubs,
-    selectedPub,
-    setSelectedPub,
-    selectedPubData,
-    latitude,
-    longitude,
-  } = useMapParams();
+  const { pubs, selectedPub, setSelectedPub, selectedPubData, latitude, longitude } =
+    useMapParams();
 
   const toggleDrawer = (id: number) => {
     setSelectedPub(selectedPub === id ? null : id);
@@ -51,11 +45,7 @@ export const MapScreen = () => {
         toolbarEnabled={false}
       >
         {pubs.map((pub) => (
-          <PubMarker
-            key={pub.id}
-            pub={pub}
-            onPress={() => toggleDrawer(pub.id)}
-          />
+          <PubMarker key={pub.id} pub={pub} onPress={() => toggleDrawer(pub.id)} />
         ))}
       </MapView>
       {selectedPubData && (

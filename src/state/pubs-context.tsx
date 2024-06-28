@@ -14,14 +14,8 @@ const defaultContext = {
 
 export const PubsContext = createContext<PubContextProps>(defaultContext);
 
-export const PubsContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  return (
-    <PubsContext.Provider value={{ pubs }}>{children}</PubsContext.Provider>
-  );
+export const PubsContextProvider = ({ children }: { children: React.ReactNode }) => {
+  return <PubsContext.Provider value={{ pubs }}>{children}</PubsContext.Provider>;
 };
 
 export const usePubsContext = () => useContext(PubsContext);

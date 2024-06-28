@@ -1,6 +1,7 @@
 # Happy Hour App
 
 ### WIP Notes
+
 - API key set up for Google Maps - only for Android and is completely open. Needs to be locked down.
 - Maps [docs](https://docs.expo.dev/versions/latest/sdk/map-view/)
 - App permissions for Android set up and test

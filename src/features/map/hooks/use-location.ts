@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import {
-  getCurrentPositionAsync,
-  requestForegroundPermissionsAsync,
-} from 'expo-location';
+import { getCurrentPositionAsync, requestForegroundPermissionsAsync } from 'expo-location';
 
 export const useLocation = () => {
   const [coords, setCoords] = useState({ latitude: 49, longitude: -123 });

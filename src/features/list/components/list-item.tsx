@@ -1,13 +1,7 @@
 import { Theme, useTheme } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
-import {
-  Image,
-  Linking,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, Linking, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { StyledHeading } from 'src/features/shared/components/styled-heading';
 import { StyledText } from 'src/features/shared/components/styled-text';
 import { getTextColor } from 'src/features/shared/helpers/get-text-color';
@@ -50,10 +44,7 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
           <StyledHeading>{name}</StyledHeading>
           <StyledText>
             Menu -{' '}
-            <StyledText
-              style={styles.link}
-              onPress={() => Linking.openURL(website)}
-            >
+            <StyledText style={styles.link} onPress={() => Linking.openURL(website)}>
               {websiteDomain}
             </StyledText>
           </StyledText>

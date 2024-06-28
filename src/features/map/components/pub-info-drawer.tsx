@@ -1,12 +1,6 @@
 import { Theme, useTheme } from '@react-navigation/native';
 import { useMemo } from 'react';
-import {
-  Dimensions,
-  Linking,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Dimensions, Linking, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Modal from 'react-native-modal';
 import { StyledHeading } from 'src/features/shared/components/styled-heading';
 import { StyledText } from 'src/features/shared/components/styled-text';
@@ -31,9 +25,7 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
   const styles = useMemo(() => makeStyles(theme), [theme]);
 
   const laterHappyHours = todaysHappyHours.filter(
-    (hh) =>
-      !['past', 'active'].includes(hh.status) &&
-      hh.startTime !== nextHappyHour?.startTime
+    (hh) => !['past', 'active'].includes(hh.status) && hh.startTime !== nextHappyHour?.startTime,
   );
   const laterStartTimeDisplay = laterHappyHours[0]?.startTimeDisplay;
   const laterEndTimeDisplay = laterHappyHours[0]?.endTimeDisplay;
@@ -45,7 +37,7 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
 
   return (
     <Modal
-      animationIn='slideInUp'
+      animationIn="slideInUp"
       isVisible={isOpen}
       coverScreen={false}
       hasBackdrop={false}
@@ -60,9 +52,7 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
               <StyledText>
                 Happy hour:{' '}
                 {nextHappyHour ? (
-                  <StyledText
-                    style={{ color: getTextColor(nextHappyHour.status) }}
-                  >
+                  <StyledText style={{ color: getTextColor(nextHappyHour.status) }}>
                     {nextHappyHourText}
                   </StyledText>
                 ) : (
@@ -79,10 +69,7 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
               )}
               <StyledText>
                 Menu -{' '}
-                <StyledText
-                  style={styles.link}
-                  onPress={() => Linking.openURL(website)}
-                >
+                <StyledText style={styles.link} onPress={() => Linking.openURL(website)}>
                   {websiteDomain}
                 </StyledText>
               </StyledText>

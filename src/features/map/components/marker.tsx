@@ -25,7 +25,7 @@ export const PubMarker = ({ pub, onPress }: Props) => {
       anchor={{ x: 0.1, y: 0.8 }}
       tracksViewChanges={false}
     >
-      <FontAwesome6 name='location-pin' size={45} style={{ color }} />
+      <FontAwesome6 name="location-pin" size={45} style={{ color }} />
       <Image source={beerLogo} style={styles.beerIcon} />
     </Marker>
   );
