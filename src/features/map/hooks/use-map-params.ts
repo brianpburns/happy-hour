@@ -14,8 +14,12 @@ export const useMapParams = () => {
   const selectedPubData = pubs.find((pub) => pub.id === selectedPub);
   const { coords } = useLocation();
 
-  const latitude = parseFloat(latitudeParam as string) ?? coords.latitude;
-  const longitude = parseFloat(longitudeParam as string) ?? coords.longitude;
+  const latitude = latitudeParam
+    ? parseFloat(latitudeParam as string)
+    : coords.latitude;
+  const longitude = longitudeParam
+    ? parseFloat(longitudeParam as string)
+    : coords.longitude;
 
   useEffect(() => {
     if (pubIdNumber) {
