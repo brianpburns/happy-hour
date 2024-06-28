@@ -45,7 +45,12 @@ export const MapScreen = () => {
         toolbarEnabled={false}
       >
         {pubs.map((pub) => (
-          <PubMarker key={pub.id} pub={pub} onPress={() => toggleDrawer(pub.id)} />
+          <PubMarker
+            key={pub.id}
+            pub={pub}
+            onPress={() => toggleDrawer(pub.id)}
+            isSelected={selectedPub === pub.id}
+          />
         ))}
       </MapView>
       {selectedPubData && (

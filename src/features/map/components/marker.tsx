@@ -10,13 +10,14 @@ import beerLogo from '../../../../assets/images/beer.png';
 interface Props {
   pub: Pub;
   onPress: () => void;
+  isSelected: boolean;
 }
 
-export const PubMarker = ({ pub, onPress }: Props) => {
+export const PubMarker = ({ pub, onPress, isSelected }: Props) => {
   const { coordinates } = pub;
   const { nextHappyHour } = useTodaysHappyHours(pub);
   const status = nextHappyHour?.status ?? 'past';
-  const color = getIconColor(status);
+  const color = getIconColor(status, isSelected);
 
   return (
     <Marker
