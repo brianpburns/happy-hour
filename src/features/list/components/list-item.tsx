@@ -1,7 +1,7 @@
 import { Theme, useTheme } from '@react-navigation/native';
 import { router } from 'expo-router';
 import { useMemo } from 'react';
-import { Image, Linking, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { StyledHeading } from 'src/features/shared/components/styled-heading';
 import { StyledText } from 'src/features/shared/components/styled-text';
 import { getTextColor } from 'src/features/shared/helpers/get-text-color';
@@ -42,12 +42,6 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
         </View>
         <View style={styles.textContainer}>
           <StyledHeading>{name}</StyledHeading>
-          <StyledText>
-            Menu -{' '}
-            <StyledText style={styles.link} onPress={() => Linking.openURL(website)}>
-              {websiteDomain}
-            </StyledText>
-          </StyledText>
         </View>
         <View style={styles.happyHourContainer}>
           <StyledText
@@ -80,14 +74,15 @@ const makeStyles = ({ dark, colors }: Theme) => {
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: imageBackground,
-      padding: 2,
+      padding: 3,
     },
     image: {
-      width: 50,
-      height: 50,
+      width: 40,
+      height: 40,
       resizeMode: 'contain',
     },
     textContainer: {
+      justifyContent: 'center',
       marginLeft: 10,
     },
     happyHourContainer: {
@@ -95,9 +90,6 @@ const makeStyles = ({ dark, colors }: Theme) => {
       flex: 1,
       alignItems: 'flex-end',
       justifyContent: 'center',
-    },
-    link: {
-      color: colors.primary,
     },
   });
 };
