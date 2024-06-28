@@ -22,10 +22,6 @@ const styles = StyleSheet.create({
     margin: 1,
     marginTop: Constants.statusBarHeight,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
   separator: {
     marginVertical: 30,
     height: 1,

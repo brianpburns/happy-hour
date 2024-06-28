@@ -10,22 +10,23 @@ import beerLogo from '../../../../assets/images/beer.png';
 interface Props {
   pub: Pub;
   onPress: () => void;
+  isSelected: boolean;
 }
 
-export const PubMarker = ({ pub, onPress }: Props) => {
-  const { coordinate } = pub;
+export const PubMarker = ({ pub, onPress, isSelected }: Props) => {
+  const { coordinates } = pub;
   const { nextHappyHour } = useTodaysHappyHours(pub);
   const status = nextHappyHour?.status ?? 'past';
-  const color = getIconColor(status);
+  const color = getIconColor(status, isSelected);
 
   return (
     <Marker
       onPress={onPress}
-      coordinate={coordinate}
+      coordinate={coordinates}
       anchor={{ x: 0.1, y: 0.8 }}
       tracksViewChanges={false}
     >
-      <FontAwesome6 name='location-pin' size={45} style={{ color }} />
+      <FontAwesome6 name="location-pin" size={45} style={{ color }} />
       <Image source={beerLogo} style={styles.beerIcon} />
     </Marker>
   );

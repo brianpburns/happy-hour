@@ -1,23 +1,26 @@
-import {
-  Image,
-  Linking,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Theme, useTheme } from '@react-navigation/native';
+import { router } from 'expo-router';
+import { useMemo } from 'react';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyledHeading } from 'src/features/shared/components/styled-heading';
+import { StyledText } from 'src/features/shared/components/styled-text';
 import { getTextColor } from 'src/features/shared/helpers/get-text-color';
 import { useTodaysHappyHours } from 'src/features/shared/hooks/use-happy-hour';
 import { Pub } from 'src/types';
 
 export const ListItem = ({ pub }: { pub: Pub }) => {
-  const { name, website, logo } = pub;
+  const { name, website, logo, id, coordinates } = pub;
   const { nextHappyHour } = useTodaysHappyHours(pub);
   const today = new Date().getDay();
-  // const { navigate } = useNavigation();
+  const theme = useTheme();
+  const styles = useMemo(() => makeStyles(theme), [theme]);
 
   const handlePress = () => {
-    // navigate('PubDetails', { pub });
+    const { latitude, longitude } = coordinates;
+    router.push({
+      pathname: `/(tabs)`,
+      params: { pubId: id, latitude, longitude },
+    });
   };
 
   const happyHourText = nextHappyHour
@@ -34,58 +37,59 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.listItem}>
-        <Image source={{ uri: logo }} style={styles.image} />
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: logo }} style={styles.image} />
+        </View>
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{name}</Text>
-          <Text style={styles.text}>
-            Menu -{' '}
-            <Text
-              style={{ ...styles.text, color: 'blue' }}
-              onPress={() => Linking.openURL(website)}
-            >
-              {websiteDomain}
-            </Text>
-          </Text>
+          <StyledHeading>{name}</StyledHeading>
         </View>
         <View style={styles.happyHourContainer}>
-          <Text
+          <StyledText
             style={{
-              ...styles.text,
+              fontWeight: 'bold',
               color: nextHappyHour ? getTextColor(nextHappyHour?.status) : '',
             }}
           >
             {happyHourText}
-          </Text>
+          </StyledText>
         </View>
       </View>
     </TouchableOpacity>
   );
 };
 
-const styles = StyleSheet.create({
-  listItem: {
-    flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 1,
-  },
-  image: { width: 50, height: 50, resizeMode: 'contain', margin: 1 },
-  textContainer: {
-    marginLeft: 10,
-  },
-  happyHourContainer: {
-    marginLeft: 10,
-    flex: 1,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  text: {
-    fontSize: 16,
-  },
-});
+const makeStyles = ({ dark, colors }: Theme) => {
+  const imageBackground = dark ? colors.text : '';
+
+  return StyleSheet.create({
+    listItem: {
+      flexDirection: 'row',
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 10,
+      padding: 10,
+      marginBottom: 1,
+    },
+    imageContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: imageBackground,
+      padding: 3,
+    },
+    image: {
+      width: 40,
+      height: 40,
+      resizeMode: 'contain',
+    },
+    textContainer: {
+      justifyContent: 'center',
+      marginLeft: 10,
+    },
+    happyHourContainer: {
+      marginLeft: 10,
+      flex: 1,
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+    },
+  });
+};

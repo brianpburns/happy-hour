@@ -24,21 +24,19 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name='index'
+        name="index"
         options={{
           title: 'Map View',
           tabBarShowLabel: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name='map' color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
         }}
       />
       <Tabs.Screen
-        name='two'
+        name="two"
         options={{
           title: 'List View',
           tabBarShowLabel: false,
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name='list-ul' color={color} />
-          ),
+          tabBarIcon: ({ color }) => <TabBarIcon name="list-ul" color={color} />,
         }}
       />
     </Tabs>

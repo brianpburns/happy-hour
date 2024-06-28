@@ -9,7 +9,7 @@ export interface Pub {
   name: string;
   website: string;
   logo: string;
-  coordinate: {
+  coordinates: {
     latitude: number;
     longitude: number;
   };

@@ -1,12 +1,9 @@
-import {
-  Dimensions,
-  Linking,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Theme, useTheme } from '@react-navigation/native';
+import { useMemo } from 'react';
+import { Dimensions, Linking, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Modal from 'react-native-modal';
+import { StyledHeading } from 'src/features/shared/components/styled-heading';
+import { StyledText } from 'src/features/shared/components/styled-text';
 import { getTextColor } from 'src/features/shared/helpers/get-text-color';
 import { useTodaysHappyHours } from 'src/features/shared/hooks/use-happy-hour';
 import { Pub } from 'src/types';
@@ -24,10 +21,11 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
   const today = new Date().getDay();
   const websiteDomain = website.replace(/(^\w+:|^)\/\//, '').split('/')[0];
 
+  const theme = useTheme();
+  const styles = useMemo(() => makeStyles(theme), [theme]);
+
   const laterHappyHours = todaysHappyHours.filter(
-    (hh) =>
-      !['past', 'active'].includes(hh.status) &&
-      hh.startTime !== nextHappyHour?.startTime
+    (hh) => !['past', 'active'].includes(hh.status) && hh.startTime !== nextHappyHour?.startTime,
   );
   const laterStartTimeDisplay = laterHappyHours[0]?.startTimeDisplay;
   const laterEndTimeDisplay = laterHappyHours[0]?.endTimeDisplay;
@@ -39,7 +37,7 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
 
   return (
     <Modal
-      animationIn='slideInUp'
+      animationIn="slideInUp"
       isVisible={isOpen}
       coverScreen={false}
       hasBackdrop={false}
@@ -49,44 +47,34 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
         <View>
           <View style={styles.handle} />
           <View style={styles.containersContainer}>
-            <View style={styles.textContainer}>
-              <Text style={styles.heading}>{name}</Text>
-              <Text style={styles.text}>
+            <View>
+              <StyledHeading>{name}</StyledHeading>
+              <StyledText>
                 Happy hour:{' '}
                 {nextHappyHour ? (
-                  <Text
-                    style={{
-                      ...styles.text,
-                      color: getTextColor(nextHappyHour.status),
-                    }}
-                  >
+                  <StyledText style={{ color: getTextColor(nextHappyHour.status) }}>
                     {nextHappyHourText}
-                  </Text>
+                  </StyledText>
                 ) : (
-                  <Text>None upcoming</Text>
+                  <StyledText>None upcoming</StyledText>
                 )}
-              </Text>
+              </StyledText>
               {laterStartTimeDisplay && (
-                <Text>
+                <StyledText>
                   Later:{' '}
-                  <Text
-                    style={{ ...styles.text, color: getTextColor(laterStatus) }}
-                  >
+                  <StyledText style={{ color: getTextColor(laterStatus) }}>
                     {laterStartTimeDisplay} - {laterEndTimeDisplay}
-                  </Text>
-                </Text>
+                  </StyledText>
+                </StyledText>
               )}
-              <Text style={styles.text}>
+              <StyledText>
                 Menu -{' '}
-                <Text
-                  style={{ ...styles.text, color: 'blue' }}
-                  onPress={() => Linking.openURL(website)}
-                >
+                <StyledText style={styles.link} onPress={() => Linking.openURL(website)}>
                   {websiteDomain}
-                </Text>
-              </Text>
+                </StyledText>
+              </StyledText>
               <TouchableOpacity onPress={close}>
-                <Text>Close</Text>
+                <StyledText>Close</StyledText>
               </TouchableOpacity>
             </View>
           </View>
@@ -96,41 +84,38 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  modal: {
-    flex: 1,
-    justifyContent: 'center',
-    margin: 0,
-  },
-  heading: {
-    fontSize: 22,
-    lineHeight: 32,
-  },
-  handle: {
-    opacity: 0.3,
-    height: 3,
-    borderWidth: 2,
-    borderColor: '#86827e',
-    marginVertical: 16,
-    alignSelf: 'center',
-    width: 50,
-  },
-  containersContainer: {
-    flexDirection: 'row',
-  },
-  textContainer: {},
-  text: {
-    lineHeight: 22,
-  },
-  bottomSheet: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    justifyContent: 'flex-start',
-    backgroundColor: 'white',
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    paddingHorizontal: 25,
-    bottom: 0,
-  },
-});
+const makeStyles = ({ dark, colors }: Theme) => {
+  return StyleSheet.create({
+    modal: {
+      flex: 1,
+      justifyContent: 'center',
+      margin: 0,
+    },
+    handle: {
+      opacity: 0.3,
+      height: 3,
+      borderWidth: 2,
+      borderColor: dark ? colors.text : colors.primary,
+      marginVertical: 16,
+      alignSelf: 'center',
+      width: 50,
+    },
+    containersContainer: {
+      flexDirection: 'row',
+    },
+    link: {
+      color: colors.primary,
+    },
+    bottomSheet: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      justifyContent: 'flex-start',
+      backgroundColor: colors.background,
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
+      paddingHorizontal: 25,
+      bottom: 0,
+    },
+  });
+};

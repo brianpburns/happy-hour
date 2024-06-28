@@ -6,7 +6,7 @@ export const pubs: Pub[] = [
     name: `Carlos O'Bryan's`,
     logo: 'https://www.kobcob.com/files/logo-1.png',
     website: 'https://www.kobcob.com/happy-hour/',
-    coordinate: {
+    coordinates: {
       latitude: 49.265325804046235,
       longitude: -123.14535265106639,
     },
@@ -32,7 +32,7 @@ export const pubs: Pub[] = [
     name: `Romer's`,
     logo: 'https://romersburgerbar.com/wp-content/themes/_tk-master/images/logo_dark.png',
     website: 'https://romersburgerbar.com/menus/drink-deals-happy-hour/',
-    coordinate: {
+    coordinates: {
       latitude: 49.268299099229296,
       longitude: -123.14719794566595,
     },

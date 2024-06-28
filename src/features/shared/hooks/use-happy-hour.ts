@@ -22,10 +22,7 @@ export const useTodaysHappyHours = (pub: Pub) => {
   const todaysHH = pub.happyHours.filter((happyHour) => happyHour.day === day);
 
   const formatData = (
-    happyHour: Omit<
-      HappyHourStatus,
-      'startTimeDisplay' | 'endTimeDisplay' | 'dayDisplay'
-    >
+    happyHour: Omit<HappyHourStatus, 'startTimeDisplay' | 'endTimeDisplay' | 'dayDisplay'>,
   ) => {
     const startTimeDisplay =
       happyHour.status === 'active' ? 'Now' : displayTime(happyHour.startTime);
