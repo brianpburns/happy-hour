@@ -1,5 +1,4 @@
 import { FontAwesome6 } from '@expo/vector-icons';
-import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Marker } from 'react-native-maps';
 import { getIconColor } from 'src/features/shared/helpers/get-text-color';
@@ -17,7 +16,7 @@ export const PubMarker = ({ pub, onPress, isSelected }: Props) => {
   const { coordinates } = pub;
   const { nextHappyHour } = useTodaysHappyHours(pub);
   const status = nextHappyHour?.status ?? 'past';
-  const color = getIconColor(status, isSelected);
+  const color = getIconColor(status);
 
   return (
     <Marker
