@@ -6,6 +6,7 @@ interface HappyHour {
 
 export interface Pub {
   id: number;
+  googlePlaceId: string;
   name: string;
   website: string;
   logo: string;
