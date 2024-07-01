@@ -5,8 +5,10 @@ import { View } from './themed';
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { useMapParams } from '../hooks/use-map-params';
+import { useSearchPubs } from '../hooks/use-search-pubs';
 import { PubMarker } from './marker';
 import { PubInfoDrawer } from './pub-info-drawer';
+import { PubsSearchBar } from './pubs-search-bar';
 
 const mapStyle = [
   {
@@ -23,13 +25,25 @@ const mapStyle = [
 export const MapScreen = () => {
   const { pubs, selectedPub, setSelectedPub, selectedPubData, latitude, longitude } =
     useMapParams();
+  const { searchTerm, handleSearch, results, resetSearch } = useSearchPubs();
 
   const toggleDrawer = (id: number) => {
     setSelectedPub(selectedPub === id ? null : id);
   };
 
+  const onStartSearch = () => {
+    setSelectedPub(null);
+  };
+
   return (
     <View style={styles.container}>
+      <PubsSearchBar
+        searchTerm={searchTerm}
+        handleSearch={handleSearch}
+        results={results}
+        resetSearch={resetSearch}
+        onStartSearch={onStartSearch}
+      />
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
