@@ -5,7 +5,7 @@ import { Pub } from 'src/types';
 export const useSearchPubs = () => {
   const { pubs } = usePubsContext();
   const [results, setResults] = useState<Pub[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('Search here');
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -20,9 +20,14 @@ export const useSearchPubs = () => {
   };
 
   const resetSearch = () => {
+    setSearchTerm('Search here');
+    setResults([]);
+  };
+
+  const clearSearch = () => {
     setSearchTerm('');
     setResults([]);
   };
 
-  return { results, searchTerm, handleSearch, resetSearch };
+  return { results, searchTerm, handleSearch, resetSearch, clearSearch };
 };
