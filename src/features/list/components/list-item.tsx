@@ -9,17 +9,16 @@ import { useTodaysHappyHours } from 'src/features/shared/hooks/use-happy-hour';
 import { Pub } from 'src/types';
 
 export const ListItem = ({ pub }: { pub: Pub }) => {
-  const { name, website, logo, id, coordinates } = pub;
+  const { name, website, logo, id } = pub;
   const { nextHappyHour } = useTodaysHappyHours(pub);
   const today = new Date().getDay();
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);
 
   const handlePress = () => {
-    const { latitude, longitude } = coordinates;
     router.push({
       pathname: `/(tabs)`,
-      params: { pubId: id, latitude, longitude },
+      params: { pubId: id },
     });
   };
 
