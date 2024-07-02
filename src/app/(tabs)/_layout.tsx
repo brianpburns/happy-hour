@@ -2,6 +2,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
 import React from 'react';
 
+import { usePubsContext } from 'src/state/pubs-context';
 import Colors from '../../../constants/Colors';
 import { useColorScheme } from '../useColorScheme';
 
@@ -15,6 +16,8 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  // This gets around a bug with position not updating if the same pub is selected in the list view
+  const { setLatitude } = usePubsContext();
 
   return (
     <Tabs
@@ -37,6 +40,9 @@ export default function TabLayout() {
           title: 'List View',
           tabBarShowLabel: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="list-ul" color={color} />,
+        }}
+        listeners={{
+          tabPress: () => setLatitude(0),
         }}
       />
     </Tabs>

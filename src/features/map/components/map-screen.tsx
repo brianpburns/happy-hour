@@ -4,8 +4,8 @@ import { StyleSheet } from 'react-native';
 import { View } from './themed';
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { usePubsContext } from 'src/state/pubs-context';
 import { useMapParams } from '../hooks/use-map-params';
-import { useSearchPubs } from '../hooks/use-search-pubs';
 import { PubMarker } from './marker';
 import { PubInfoDrawer } from './pub-info-drawer';
 import { PubsSearchBar } from './pubs-search-bar';
@@ -23,27 +23,31 @@ const mapStyle = [
 ];
 
 export const MapScreen = () => {
-  const { pubs, selectedPub, setSelectedPub, selectedPubData, latitude, longitude } =
-    useMapParams();
-  const { searchTerm, handleSearch, results, resetSearch } = useSearchPubs();
+  const { pubs, selectedPubData } = useMapParams();
+  const {
+    drawerOpen,
+    setDrawerOpen,
+    selectedPub,
+    setSelectedPub,
+    latitude,
+    longitude,
+    setLatitude,
+  } = usePubsContext();
 
   const toggleDrawer = (id: number) => {
-    setSelectedPub(selectedPub === id ? null : id);
+    setDrawerOpen(drawerOpen ? selectedPub !== id : true);
+    if (selectedPub !== id) {
+      setSelectedPub(id);
+    }
   };
 
   const onStartSearch = () => {
-    setSelectedPub(null);
+    setDrawerOpen(false);
   };
 
   return (
     <View style={styles.container}>
-      <PubsSearchBar
-        searchTerm={searchTerm}
-        handleSearch={handleSearch}
-        results={results}
-        resetSearch={resetSearch}
-        onStartSearch={onStartSearch}
-      />
+      <PubsSearchBar onStartSearch={onStartSearch} setSelectedPub={setSelectedPub} />
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
@@ -57,6 +61,7 @@ export const MapScreen = () => {
         showsPointsOfInterest={false}
         customMapStyle={mapStyle}
         toolbarEnabled={false}
+        mapPadding={{ top: 40, right: 0, left: 0, bottom: 40 }}
       >
         {pubs.map((pub) => (
           <PubMarker
@@ -70,8 +75,8 @@ export const MapScreen = () => {
       {selectedPubData && (
         <PubInfoDrawer
           pub={selectedPubData}
-          isOpen={selectedPub !== null}
-          close={() => setSelectedPub(null)}
+          isOpen={drawerOpen}
+          close={() => setDrawerOpen(false)}
         />
       )}
     </View>
