@@ -5,7 +5,9 @@ import { Pub } from 'src/types';
 export const useSearchPubs = () => {
   const { pubs } = usePubsContext();
   const [results, setResults] = useState<Pub[]>([]);
-  const [searchTerm, setSearchTerm] = useState('Search here');
+  const [searchTerm, setSearchTerm] = useState('');
+  const { setDrawerOpen, setLatitude, setLongitude } = usePubsContext();
+  const { setSelectedPub } = usePubsContext();
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -20,7 +22,7 @@ export const useSearchPubs = () => {
   };
 
   const resetSearch = () => {
-    setSearchTerm('Search here');
+    setSearchTerm('');
     setResults([]);
   };
 
@@ -29,5 +31,21 @@ export const useSearchPubs = () => {
     setResults([]);
   };
 
-  return { results, searchTerm, handleSearch, resetSearch, clearSearch };
+  const handleListSelection = (pub: Pub) => {
+    setSelectedPub(pub.id);
+    setLatitude(pub.coordinates.latitude);
+    setLongitude(pub.coordinates.longitude);
+    setDrawerOpen(true);
+    setSearchTerm(pub.name);
+    setResults([]);
+  };
+
+  return {
+    results,
+    searchTerm,
+    handleSearch,
+    resetSearch,
+    clearSearch,
+    handleListSelection,
+  };
 };

@@ -1,29 +1,29 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Theme, useTheme } from '@react-navigation/native';
-import React, { useMemo, useRef } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import Autocomplete from 'react-native-autocomplete-input';
 import { StyledText, getTextStyles } from 'src/features/shared/components/styled-text';
 
-import { usePubsContext } from 'src/state/pubs-context';
 import { Pub } from 'src/types';
 import { useSearchPubs } from '../hooks/use-search-pubs';
 
 interface Props {
   onStartSearch: () => void;
-  setSelectedPub: (id: number | null) => void;
 }
 
-export const PubsSearchBar = ({ onStartSearch, setSelectedPub }: Props) => {
+export const PubsSearchBar = forwardRef<TextInput, Props>(({ onStartSearch }, ref) => {
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);
   const textStyles = useMemo(() => getTextStyles(theme), [theme]);
-  const ref = useRef<TextInput>(null);
-  const { searchTerm, handleSearch, results, resetSearch, clearSearch } = useSearchPubs();
-  const { setDrawerOpen, setLatitude, setLongitude } = usePubsContext();
+  const { searchTerm, handleSearch, results, resetSearch, clearSearch, handleListSelection } =
+    useSearchPubs();
+
+  const newRef = React.useRef<TextInput>(null);
+  const searchBarRef = (ref || newRef) as React.RefObject<TextInput>;
 
   const unfocus = () => {
-    ref.current?.blur();
+    searchBarRef.current?.blur();
   };
 
   const search = (value: string) => {
@@ -34,45 +34,36 @@ export const PubsSearchBar = ({ onStartSearch, setSelectedPub }: Props) => {
     }
   };
 
-  const handleSubmit = (item: Pub) => {
-    setSelectedPub(item.id);
-    setLatitude(item.coordinates.latitude);
-    setLongitude(item.coordinates.longitude);
+  const handleSelect = (pub: Pub) => {
     unfocus();
-    setDrawerOpen(true);
-    resetSearch();
-  };
-
-  const handlePress = () => {
-    if (searchTerm === 'Search here') {
-      clearSearch();
-    }
-    onStartSearch();
+    handleListSelection(pub);
   };
 
   return (
     <View style={styles.searchbarWrapper}>
       <Autocomplete
         data={results}
-        onPress={handlePress}
+        onPress={onStartSearch}
         onChangeText={(text) => search(text)}
         renderTextInput={() => (
           <View style={styles.searchbar}>
             {searchTerm ? (
-              <AntDesign name="left" size={16} color="white" onPress={resetSearch} />
+              <AntDesign name="left" size={16} color="white" onPress={unfocus} />
             ) : (
               <Ionicons
                 name="beer-outline"
                 size={16}
                 color="white"
-                onPress={() => ref.current?.focus()}
+                onPress={() => searchBarRef.current?.focus()}
               />
             )}
             <TextInput
-              ref={ref}
-              onPress={handlePress}
+              ref={searchBarRef}
+              onPress={onStartSearch}
               onChangeText={(text) => search(text)}
-              style={[textStyles.text, { paddingLeft: 3, flex: 1 }]}
+              style={[textStyles.text, { paddingLeft: 5, flex: 1 }]}
+              placeholderTextColor={theme.colors.text}
+              placeholder="Search here"
             >
               {searchTerm}
             </TextInput>
@@ -88,7 +79,7 @@ export const PubsSearchBar = ({ onStartSearch, setSelectedPub }: Props) => {
         )}
         flatListProps={{
           renderItem: ({ item }) => (
-            <TouchableOpacity onPress={() => handleSubmit(item)}>
+            <TouchableOpacity onPress={() => handleSelect(item)}>
               <StyledText key={item.name} style={styles.listItem}>
                 {item.name}
               </StyledText>
@@ -99,7 +90,7 @@ export const PubsSearchBar = ({ onStartSearch, setSelectedPub }: Props) => {
       />
     </View>
   );
-};
+});
 
 const makeStyles = ({ colors }: Theme) => {
   return StyleSheet.create({

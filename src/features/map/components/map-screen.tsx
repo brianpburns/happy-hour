@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useRef } from 'react';
+import { StyleSheet, TextInput } from 'react-native';
 
 import { View } from './themed';
 
@@ -36,6 +36,7 @@ export const MapScreen = () => {
     setLongitude,
   } = usePubsContext();
   const { coords } = useLocation();
+  const searchBarRef = useRef<TextInput>(null);
 
   const toggleDrawer = (id: number) => {
     setDrawerOpen(drawerOpen ? selectedPub !== id : true);
@@ -57,9 +58,13 @@ export const MapScreen = () => {
     }
   };
 
+  const unfocusSearchBar = () => {
+    searchBarRef.current?.blur();
+  };
+
   return (
     <View style={styles.container}>
-      <PubsSearchBar onStartSearch={onStartSearch} setSelectedPub={setSelectedPub} />
+      <PubsSearchBar ref={searchBarRef} onStartSearch={onStartSearch} />
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
@@ -69,6 +74,8 @@ export const MapScreen = () => {
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
+        onPress={unfocusSearchBar}
+        onMarkerPress={unfocusSearchBar}
         onRegionChangeComplete={handleRegionChangeComplete}
         showsUserLocation={true}
         showsPointsOfInterest={false}
