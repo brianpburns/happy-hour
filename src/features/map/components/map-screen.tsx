@@ -3,9 +3,9 @@ import { StyleSheet, TextInput } from 'react-native';
 
 import { View } from './themed';
 
+import { getCurrentPositionAsync } from 'expo-location';
 import MapView, { PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import { usePubsContext } from 'src/state/pubs-context';
-import { useLocation } from '../hooks/use-location';
 import { useMapParams } from '../hooks/use-map-params';
 import { PubMarker } from './marker';
 import { PubInfoDrawer } from './pub-info-drawer';
@@ -35,7 +35,6 @@ export const MapScreen = () => {
     setLatitude,
     setLongitude,
   } = usePubsContext();
-  const { coords } = useLocation();
   const searchBarRef = useRef<TextInput>(null);
 
   const toggleDrawer = (id: number) => {
@@ -48,7 +47,8 @@ export const MapScreen = () => {
   };
 
   // This method handles clicking the my location button. Without it, coords are out of sync with the map position.
-  const handleRegionChangeComplete = (e: Region) => {
+  const handleRegionChangeComplete = async (e: Region) => {
+    const { coords } = await getCurrentPositionAsync({});
     if (
       Math.round(e.latitude) === Math.round(coords.latitude) &&
       Math.round(e.longitude) === Math.round(coords.longitude)

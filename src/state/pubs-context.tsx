@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { useLocation } from 'src/features/map/hooks/use-location';
+import { useUserLocation } from 'src/state/hooks/use-user-location';
 import { Pub } from 'src/types';
 import { pubs } from './pubs-data';
 
@@ -34,9 +34,7 @@ export const PubsContext = createContext<PubContextProps>(defaultContext);
 export const PubsContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [selectedPub, setSelectedPub] = useState<number | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const { coords } = useLocation();
-  const [latitude, setLatitude] = useState(coords.latitude);
-  const [longitude, setLongitude] = useState(coords.longitude);
+  const { latitude, setLatitude, longitude, setLongitude } = useUserLocation();
 
   const value = {
     pubs,
