@@ -3,8 +3,9 @@ import { StyleSheet } from 'react-native';
 
 import { View } from './themed';
 
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import { usePubsContext } from 'src/state/pubs-context';
+import { useLocation } from '../hooks/use-location';
 import { useMapParams } from '../hooks/use-map-params';
 import { PubMarker } from './marker';
 import { PubInfoDrawer } from './pub-info-drawer';
@@ -32,17 +33,28 @@ export const MapScreen = () => {
     latitude,
     longitude,
     setLatitude,
+    setLongitude,
   } = usePubsContext();
+  const { coords } = useLocation();
 
   const toggleDrawer = (id: number) => {
     setDrawerOpen(drawerOpen ? selectedPub !== id : true);
-    if (selectedPub !== id) {
-      setSelectedPub(id);
-    }
+    setSelectedPub(id);
   };
 
   const onStartSearch = () => {
     setDrawerOpen(false);
+  };
+
+  // This method handles clicking the my location button. Without it, coords are out of sync with the map position.
+  const handleRegionChangeComplete = (e: Region) => {
+    if (
+      Math.round(e.latitude) === Math.round(coords.latitude) &&
+      Math.round(e.longitude) === Math.round(coords.longitude)
+    ) {
+      setLatitude(e.latitude);
+      setLongitude(e.longitude);
+    }
   };
 
   return (
@@ -57,6 +69,7 @@ export const MapScreen = () => {
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
+        onRegionChangeComplete={handleRegionChangeComplete}
         showsUserLocation={true}
         showsPointsOfInterest={false}
         customMapStyle={mapStyle}
