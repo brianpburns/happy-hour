@@ -39,14 +39,7 @@ export const Filters = () => {
 const makeStyles = ({ colors }: Theme) => {
   return StyleSheet.create({
     filterWrapper: {
-      position: 'absolute',
-      left: 5,
-      right: 5,
-      top: 48,
-      zIndex: 1,
-      width: '50%',
       flexDirection: 'row',
-      alignItems: 'flex-start',
     },
     filter: {
       padding: 3,

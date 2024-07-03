@@ -95,7 +95,13 @@ export const PubsSearchBar = forwardRef<TextInput, Props>(
             }}
           />
         </View>
-        {!searchBarFocused && <Filters />}
+        {!searchBarFocused && (
+          <>
+            <View style={styles.filterWrapper}>
+              <Filters />
+            </View>
+          </>
+        )}
       </>
     );
   },
@@ -128,6 +134,16 @@ const makeStyles = ({ colors }: Theme) => {
     listItem: {
       backgroundColor: colors.background,
       padding: 5,
+    },
+    filterWrapper: {
+      position: 'absolute',
+      left: 5,
+      right: 5,
+      top: 48,
+      zIndex: 1,
+      width: '50%',
+      flexDirection: 'row',
+      alignItems: 'flex-start',
     },
   });
 };
