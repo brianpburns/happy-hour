@@ -41,7 +41,7 @@ const makeStyles = ({ colors }: Theme) => {
       alignItems: 'flex-start',
     },
     filter: {
-      padding: 5,
+      padding: 3,
       paddingLeft: 10,
       paddingRight: 10,
       borderRadius: 10,

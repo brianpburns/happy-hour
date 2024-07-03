@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 
 import { View } from './themed';
@@ -36,6 +36,7 @@ export const MapScreen = () => {
     setLongitude,
   } = usePubsContext();
   const searchBarRef = useRef<TextInput>(null);
+  const [hideSearchResults, setHideSearchResults] = useState(false);
 
   const toggleDrawer = (id: number) => {
     setDrawerOpen(drawerOpen ? selectedPub !== id : true);
@@ -43,6 +44,7 @@ export const MapScreen = () => {
   };
 
   const onStartSearch = () => {
+    setHideSearchResults(false);
     setDrawerOpen(false);
   };
 
@@ -59,12 +61,17 @@ export const MapScreen = () => {
   };
 
   const unfocusSearchBar = () => {
+    setHideSearchResults(true);
     searchBarRef.current?.blur();
   };
 
   return (
     <View style={styles.container}>
-      <PubsSearchBar ref={searchBarRef} onStartSearch={onStartSearch} />
+      <PubsSearchBar
+        ref={searchBarRef}
+        onStartSearch={onStartSearch}
+        hideSearchResults={hideSearchResults}
+      />
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}

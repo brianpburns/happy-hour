@@ -11,90 +11,95 @@ import { Filters } from './filters';
 
 interface Props {
   onStartSearch: () => void;
+  hideSearchResults: boolean;
 }
 
-export const PubsSearchBar = forwardRef<TextInput, Props>(({ onStartSearch }, ref) => {
-  const theme = useTheme();
-  const styles = useMemo(() => makeStyles(theme), [theme]);
-  const textStyles = useMemo(() => getTextStyles(theme), [theme]);
-  const { searchTerm, handleSearch, results, resetSearch, clearSearch, handleListSelection } =
-    useSearchPubs();
+export const PubsSearchBar = forwardRef<TextInput, Props>(
+  ({ onStartSearch, hideSearchResults }, ref) => {
+    const theme = useTheme();
+    const styles = useMemo(() => makeStyles(theme), [theme]);
+    const textStyles = useMemo(() => getTextStyles(theme), [theme]);
+    const { searchTerm, handleSearch, results, resetSearch, clearSearch, handleListSelection } =
+      useSearchPubs();
 
-  const newRef = React.useRef<TextInput>(null);
-  const searchBarRef = (ref || newRef) as React.RefObject<TextInput>;
+    const newRef = React.useRef<TextInput>(null);
+    const searchBarRef = (ref || newRef) as React.RefObject<TextInput>;
+    const searchBarFocused = searchBarRef.current?.isFocused();
 
-  const unfocus = () => {
-    searchBarRef.current?.blur();
-  };
+    const unfocus = () => {
+      searchBarRef.current?.blur();
+    };
 
-  const search = (value: string) => {
-    if (value === '') {
-      resetSearch();
-    } else {
-      handleSearch(value);
-    }
-  };
+    const search = (value: string) => {
+      if (value === '') {
+        resetSearch();
+      } else {
+        handleSearch(value);
+      }
+    };
 
-  const handleSelect = (pub: Pub) => {
-    unfocus();
-    handleListSelection(pub);
-  };
+    const handleSelect = (pub: Pub) => {
+      unfocus();
+      handleListSelection(pub);
+    };
 
-  return (
-    <>
-      <View style={styles.searchbarWrapper}>
-        <Autocomplete
-          data={results}
-          onPress={onStartSearch}
-          onChangeText={(text) => search(text)}
-          renderTextInput={() => (
-            <View style={styles.searchbar}>
-              {searchTerm ? (
-                <AntDesign name="left" size={16} color="white" onPress={unfocus} />
-              ) : (
-                <Ionicons
-                  name="beer-outline"
-                  size={16}
-                  color="white"
-                  onPress={() => searchBarRef.current?.focus()}
-                />
-              )}
-              <TextInput
-                ref={searchBarRef}
-                onPress={onStartSearch}
-                onChangeText={(text) => search(text)}
-                style={[textStyles.text, { paddingLeft: 5, flex: 1 }]}
-                placeholderTextColor={theme.colors.text}
-                placeholder="Search here"
-              >
-                {searchTerm}
-              </TextInput>
-              {searchTerm && (
-                <AntDesign
-                  name="closecircleo"
-                  size={16}
-                  style={styles.closeButton}
-                  onPress={clearSearch}
-                />
-              )}
-            </View>
-          )}
-          flatListProps={{
-            renderItem: ({ item }) => (
-              <TouchableOpacity onPress={() => handleSelect(item)}>
-                <StyledText key={item.name} style={styles.listItem}>
-                  {item.name}
-                </StyledText>
-              </TouchableOpacity>
-            ),
-            keyboardShouldPersistTaps: 'handled',
-          }}
-        />
-      </View>
-      <Filters />
-    </>
-  );
-});
+    return (
+      <>
+        <View style={styles.searchbarWrapper}>
+          <Autocomplete
+            data={results}
+            hideResults={hideSearchResults}
+            onPress={onStartSearch}
+            onChangeText={(text) => search(text)}
+            renderTextInput={() => (
+              <View style={styles.searchbar}>
+                {searchTerm ? (
+                  <AntDesign name="left" size={16} color="white" onPress={unfocus} />
+                ) : (
+                  <Ionicons
+                    name="beer-outline"
+                    size={16}
+                    color="white"
+                    onPress={() => searchBarRef.current?.focus()}
+                  />
+                )}
+                <TextInput
+                  ref={searchBarRef}
+                  onPress={onStartSearch}
+                  onChangeText={(text) => search(text)}
+                  style={[textStyles.text, { paddingLeft: 5, flex: 1 }]}
+                  placeholderTextColor={theme.colors.text}
+                  placeholder="Search here"
+                >
+                  {searchTerm}
+                </TextInput>
+                {searchTerm && (
+                  <AntDesign
+                    name="closecircleo"
+                    size={16}
+                    style={styles.closeButton}
+                    onPress={clearSearch}
+                  />
+                )}
+              </View>
+            )}
+            flatListProps={{
+              renderItem: ({ item }) => (
+                <TouchableOpacity onPress={() => handleSelect(item)}>
+                  <StyledText key={item.name} style={styles.listItem}>
+                    {item.name}
+                  </StyledText>
+                </TouchableOpacity>
+              ),
+              keyboardShouldPersistTaps: 'handled',
+            }}
+          />
+        </View>
+        {!searchBarFocused && <Filters />}
+      </>
+    );
+  },
+);
 
 const makeStyles = ({ colors }: Theme) => {
   return StyleSheet.create({
