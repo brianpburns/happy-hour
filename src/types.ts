@@ -17,8 +17,9 @@ export interface Pub {
   happyHours: HappyHour[];
 }
 
-export interface HappyHourStatus {
-  status: 'past' | 'active' | 'upcoming' | 'later';
+export type HappyHourStatus = 'past' | 'active' | 'soon' | 'later';
+export interface HappyHourDetails {
+  status: HappyHourStatus;
   startTime: number;
   startTimeDisplay: string;
   endTime: number;
