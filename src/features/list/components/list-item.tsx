@@ -4,14 +4,14 @@ import { useMemo } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { StyledHeading } from 'src/features/shared/components/styled-heading';
 import { StyledText } from 'src/features/shared/components/styled-text';
+import { getHappyHourDetails } from 'src/features/shared/helpers/get-happy-hour-details';
 import { getTextColor } from 'src/features/shared/helpers/get-text-color';
-import { useTodaysHappyHours } from 'src/features/shared/hooks/use-happy-hour';
 import { usePubsContext } from 'src/state/pubs-context';
 import { Pub } from 'src/types';
 
 export const ListItem = ({ pub }: { pub: Pub }) => {
   const { name, logo, id, coordinates } = pub;
-  const { nextHappyHour } = useTodaysHappyHours(pub);
+  const { nextHappyHour } = getHappyHourDetails(pub);
   const today = new Date().getDay();
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);

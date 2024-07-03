@@ -1,8 +1,8 @@
 import { FontAwesome6 } from '@expo/vector-icons';
 import { Image, StyleSheet } from 'react-native';
 import { Marker } from 'react-native-maps';
+import { getHappyHourDetails } from 'src/features/shared/helpers/get-happy-hour-details';
 import { getIconColor } from 'src/features/shared/helpers/get-text-color';
-import { useTodaysHappyHours } from 'src/features/shared/hooks/use-happy-hour';
 import { Pub } from 'src/types';
 import beerLogo from '../../../../assets/images/beer.png';
 
@@ -14,7 +14,7 @@ interface Props {
 
 export const PubMarker = ({ pub, onPress, isSelected }: Props) => {
   const { coordinates } = pub;
-  const { nextHappyHour } = useTodaysHappyHours(pub);
+  const { nextHappyHour } = getHappyHourDetails(pub);
   const status = nextHappyHour?.status ?? 'past';
   const color = getIconColor(status);
 

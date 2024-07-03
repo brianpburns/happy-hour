@@ -4,8 +4,8 @@ import { Dimensions, Linking, StyleSheet, TouchableOpacity, View } from 'react-n
 import Modal from 'react-native-modal';
 import { StyledHeading } from 'src/features/shared/components/styled-heading';
 import { StyledText } from 'src/features/shared/components/styled-text';
+import { getHappyHourDetails } from 'src/features/shared/helpers/get-happy-hour-details';
 import { getTextColor } from 'src/features/shared/helpers/get-text-color';
-import { useTodaysHappyHours } from 'src/features/shared/hooks/use-happy-hour';
 import { Pub } from 'src/types';
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
 export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
   const windowHeight = Dimensions.get('window').height;
   const { name, website } = pub;
-  const { todaysHappyHours, nextHappyHour } = useTodaysHappyHours(pub);
+  const { todaysHappyHours, nextHappyHour } = getHappyHourDetails(pub);
   const today = new Date().getDay();
   const websiteDomain = website.replace(/(^\w+:|^)\/\//, '').split('/')[0];
 
