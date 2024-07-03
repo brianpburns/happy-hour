@@ -2,6 +2,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
 import React from 'react';
 
+import { useFilterPubs } from 'src/features/shared/hooks/use-filter-pubs';
 import Colors from '../../../constants/Colors';
 import { useColorScheme } from '../useColorScheme';
 
@@ -15,6 +16,13 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const filterPubs = useFilterPubs();
+
+  const tabPressListener = {
+    tabPress: () => {
+      filterPubs('all');
+    },
+  };
 
   return (
     <Tabs
@@ -30,6 +38,7 @@ export default function TabLayout() {
           tabBarShowLabel: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
         }}
+        listeners={tabPressListener}
       />
       <Tabs.Screen
         name="two"
@@ -38,6 +47,7 @@ export default function TabLayout() {
           tabBarShowLabel: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="list-ul" color={color} />,
         }}
+        listeners={tabPressListener}
       />
     </Tabs>
   );
