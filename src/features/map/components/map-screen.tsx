@@ -5,6 +5,7 @@ import { View } from './themed';
 
 import { getCurrentPositionAsync } from 'expo-location';
 import MapView, { PROVIDER_GOOGLE, Region } from 'react-native-maps';
+import { useFilterPubs } from 'src/features/shared/hooks/use-filter-pubs';
 import { usePubsContext } from 'src/state/pubs-context';
 import { useMapParams } from '../hooks/use-map-params';
 import { PubMarker } from './marker';
@@ -38,6 +39,7 @@ export const MapScreen = () => {
   } = usePubsContext();
   const searchBarRef = useRef<TextInput>(null);
   const [hideSearchResults, setHideSearchResults] = useState(false);
+  const filterPubs = useFilterPubs();
 
   const toggleDrawer = (id: number) => {
     setDrawerOpen(drawerOpen ? selectedPub !== id : true);
@@ -45,6 +47,7 @@ export const MapScreen = () => {
   };
 
   const onStartSearch = () => {
+    filterPubs('all');
     setHideSearchResults(false);
     setDrawerOpen(false);
   };
