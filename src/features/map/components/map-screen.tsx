@@ -24,7 +24,7 @@ const mapStyle = [
 ];
 
 export const MapScreen = () => {
-  const { pubs, selectedPubData } = useMapParams();
+  const { selectedPubData } = useMapParams();
   const {
     drawerOpen,
     setDrawerOpen,
@@ -34,6 +34,7 @@ export const MapScreen = () => {
     longitude,
     setLatitude,
     setLongitude,
+    filteredPubs,
   } = usePubsContext();
   const searchBarRef = useRef<TextInput>(null);
   const [hideSearchResults, setHideSearchResults] = useState(false);
@@ -90,7 +91,7 @@ export const MapScreen = () => {
         toolbarEnabled={false}
         mapPadding={{ top: 40, right: 0, left: 0, bottom: 40 }}
       >
-        {pubs.map((pub) => (
+        {filteredPubs.map((pub) => (
           <PubMarker
             key={pub.id}
             pub={pub}
