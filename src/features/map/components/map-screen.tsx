@@ -1,12 +1,16 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { StyleSheet, TextInput } from 'react-native';
 
 import { View } from './themed';
 
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { getCurrentPositionAsync } from 'expo-location';
+import MapView, { PROVIDER_GOOGLE, Region } from 'react-native-maps';
+import { useFilterPubs } from 'src/features/shared/hooks/use-filter-pubs';
+import { usePubsContext } from 'src/state/pubs-context';
 import { useMapParams } from '../hooks/use-map-params';
 import { PubMarker } from './marker';
 import { PubInfoDrawer } from './pub-info-drawer';
+import { PubsSearchBar } from './pubs-search-bar';
 
 const mapStyle = [
   {
@@ -21,15 +25,57 @@ const mapStyle = [
 ];
 
 export const MapScreen = () => {
-  const { pubs, selectedPub, setSelectedPub, selectedPubData, latitude, longitude } =
-    useMapParams();
+  const { selectedPubData } = useMapParams();
+  const {
+    drawerOpen,
+    setDrawerOpen,
+    selectedPub,
+    setSelectedPub,
+    latitude,
+    longitude,
+    setLatitude,
+    setLongitude,
+    filteredPubs,
+  } = usePubsContext();
+  const searchBarRef = useRef<TextInput>(null);
+  const [hideSearchResults, setHideSearchResults] = useState(false);
+  const filterPubs = useFilterPubs();
 
   const toggleDrawer = (id: number) => {
-    setSelectedPub(selectedPub === id ? null : id);
+    setDrawerOpen(drawerOpen ? selectedPub !== id : true);
+    setSelectedPub(id);
+  };
+
+  const onStartSearch = () => {
+    filterPubs('all');
+    setHideSearchResults(false);
+    setDrawerOpen(false);
+  };
+
+  // This method handles clicking the my location button. Without it, coords are out of sync with the map position.
+  const handleRegionChangeComplete = async (e: Region) => {
+    const { coords } = await getCurrentPositionAsync({});
+    if (
+      Math.round(e.latitude) === Math.round(coords.latitude) &&
+      Math.round(e.longitude) === Math.round(coords.longitude)
+    ) {
+      setLatitude(e.latitude);
+      setLongitude(e.longitude);
+    }
+  };
+
+  const unfocusSearchBar = () => {
+    setHideSearchResults(true);
+    searchBarRef.current?.blur();
   };
 
   return (
     <View style={styles.container}>
+      <PubsSearchBar
+        ref={searchBarRef}
+        onStartSearch={onStartSearch}
+        hideSearchResults={hideSearchResults}
+      />
       <MapView
         style={styles.map}
         provider={PROVIDER_GOOGLE}
@@ -39,12 +85,16 @@ export const MapScreen = () => {
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
+        onPress={unfocusSearchBar}
+        onMarkerPress={unfocusSearchBar}
+        onRegionChangeComplete={handleRegionChangeComplete}
         showsUserLocation={true}
         showsPointsOfInterest={false}
         customMapStyle={mapStyle}
         toolbarEnabled={false}
+        mapPadding={{ top: 40, right: 0, left: 0, bottom: 40 }}
       >
-        {pubs.map((pub) => (
+        {filteredPubs.map((pub) => (
           <PubMarker
             key={pub.id}
             pub={pub}
@@ -56,8 +106,8 @@ export const MapScreen = () => {
       {selectedPubData && (
         <PubInfoDrawer
           pub={selectedPubData}
-          isOpen={selectedPub !== null}
-          close={() => setSelectedPub(null)}
+          isOpen={drawerOpen}
+          close={() => setDrawerOpen(false)}
         />
       )}
     </View>

@@ -2,12 +2,16 @@ import { useEffect, useState } from 'react';
 
 import { getCurrentPositionAsync, requestForegroundPermissionsAsync } from 'expo-location';
 
-export const useLocation = () => {
-  const [coords, setCoords] = useState({ latitude: 49, longitude: -123 });
+/**
+ * This hook should only be used by PubsContextProvider.
+ */
+export const useUserLocation = () => {
+  const [latitude, setLatitude] = useState(49);
+  const [longitude, setLongitude] = useState(-123);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    (async () => {
+    const getLocation = async () => {
       const { status } = await requestForegroundPermissionsAsync();
 
       if (status !== 'granted') {
@@ -18,9 +22,12 @@ export const useLocation = () => {
       const { coords } = await getCurrentPositionAsync({});
       const { latitude, longitude } = coords;
 
-      setCoords({ latitude, longitude });
-    })();
+      setLatitude(latitude);
+      setLongitude(longitude);
+    };
+
+    getLocation();
   }, []);
 
-  return { coords, error };
+  return { latitude, setLatitude, longitude, setLongitude, error };
 };

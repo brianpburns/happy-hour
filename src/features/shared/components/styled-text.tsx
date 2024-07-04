@@ -5,7 +5,7 @@ import { StyleSheet, Text, TextProps } from 'react-native';
 export const StyledText = (props: TextProps) => {
   const { children, style } = props;
   const theme = useTheme();
-  const styles = useMemo(() => makeStyles(theme), [theme]);
+  const styles = useMemo(() => getTextStyles(theme), [theme]);
 
   return (
     <Text {...props} style={[styles.text, style]}>
@@ -14,7 +14,7 @@ export const StyledText = (props: TextProps) => {
   );
 };
 
-const makeStyles = ({ colors }: Theme) => {
+export const getTextStyles = ({ colors }: Theme) => {
   return StyleSheet.create({
     text: {
       color: colors.text,

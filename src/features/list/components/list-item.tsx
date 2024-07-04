@@ -4,23 +4,27 @@ import { useMemo } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { StyledHeading } from 'src/features/shared/components/styled-heading';
 import { StyledText } from 'src/features/shared/components/styled-text';
+import { getHappyHourDetails } from 'src/features/shared/helpers/get-happy-hour-details';
 import { getTextColor } from 'src/features/shared/helpers/get-text-color';
-import { useTodaysHappyHours } from 'src/features/shared/hooks/use-happy-hour';
+import { usePubsContext } from 'src/state/pubs-context';
 import { Pub } from 'src/types';
 
 export const ListItem = ({ pub }: { pub: Pub }) => {
-  const { name, website, logo, id, coordinates } = pub;
-  const { nextHappyHour } = useTodaysHappyHours(pub);
+  const { name, logo, id, coordinates } = pub;
+  const { nextHappyHour } = getHappyHourDetails(pub);
   const today = new Date().getDay();
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);
+  const { setDrawerOpen, selectedPub, setSelectedPub, setLatitude, setLongitude } =
+    usePubsContext();
 
   const handlePress = () => {
     const { latitude, longitude } = coordinates;
-    router.push({
-      pathname: `/(tabs)`,
-      params: { pubId: id, latitude, longitude },
-    });
+    setSelectedPub(id);
+    setLatitude(latitude);
+    setLongitude(longitude);
+    setDrawerOpen(true);
+    router.push({ pathname: `/(tabs)` });
   };
 
   const happyHourText = nextHappyHour
@@ -30,9 +34,6 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
           nextHappyHour.day !== today ? nextHappyHour.dayDisplay : ''
         }`
     : 'None';
-
-  // Remove http:// and https:// from website
-  const websiteDomain = website.replace(/(^\w+:|^)\/\//, '').split('/')[0];
 
   return (
     <TouchableOpacity onPress={handlePress}>
