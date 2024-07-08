@@ -1,6 +1,13 @@
 import { Theme, useTheme } from '@react-navigation/native';
-import { useMemo } from 'react';
-import { Dimensions, Linking, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Animated,
+  Dimensions,
+  GestureResponderEvent,
+  Linking,
+  StyleSheet,
+  View,
+} from 'react-native';
 import Modal from 'react-native-modal';
 import { StyledHeading } from 'src/features/shared/components/styled-heading';
 import { StyledText } from 'src/features/shared/components/styled-text';
@@ -11,18 +18,30 @@ import { Pub } from 'src/types';
 interface Props {
   pub: Pub;
   isOpen: boolean;
-  close: () => void;
 }
 
-export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
+enum DrawerHeight {
+  Min = 0.1,
+  Mid = 0.25,
+  Max = 0.6,
+}
+
+export const PubInfoDrawer = ({ pub, isOpen }: Props) => {
   const windowHeight = Dimensions.get('window').height;
   const { name, website } = pub;
   const { todaysHappyHours, nextHappyHour } = getHappyHourDetails(pub);
   const today = new Date().getDay();
   const websiteDomain = website.replace(/(^\w+:|^)\/\//, '').split('/')[0];
+  const [drawerHeight, setDrawerHeight] = useState<DrawerHeight>(DrawerHeight.Mid);
+  const [y, setY] = useState(0);
+  const ref = useRef<View>(null);
 
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);
+
+  useEffect(() => {
+    setDrawerHeight(DrawerHeight.Mid);
+  }, [name]);
 
   const laterHappyHours = todaysHappyHours.filter(
     (hh) => !['past', 'active'].includes(hh.status) && hh.startTime !== nextHappyHour?.startTime,
@@ -35,6 +54,26 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
     (nextHappyHour?.day !== today ? `${nextHappyHour?.dayDisplay} ` : '') +
     `${nextHappyHour?.startTimeDisplay} - ${nextHappyHour?.endTimeDisplay}`;
 
+  const handleTouchStart = (event: GestureResponderEvent) => {
+    setY(event.nativeEvent.pageY);
+  };
+
+  const handleTouchEnd = (event: GestureResponderEvent) => {
+    if (event.nativeEvent.pageY > y) {
+      if (drawerHeight === DrawerHeight.Max) {
+        setDrawerHeight(DrawerHeight.Mid);
+      } else {
+        setDrawerHeight(DrawerHeight.Min);
+      }
+    } else {
+      if (drawerHeight === DrawerHeight.Mid) {
+        setDrawerHeight(DrawerHeight.Max);
+      } else {
+        setDrawerHeight(DrawerHeight.Mid);
+      }
+    }
+  };
+
   return (
     <Modal
       animationIn="slideInUp"
@@ -43,7 +82,12 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
       hasBackdrop={false}
       style={styles.modal}
     >
-      <View style={[styles.bottomSheet, { height: windowHeight * 0.3 }]}>
+      <Animated.View
+        ref={ref}
+        style={[styles.bottomSheet, { height: windowHeight * drawerHeight }]}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         <View>
           <View style={styles.handle} />
           <View style={styles.containersContainer}>
@@ -73,13 +117,10 @@ export const PubInfoDrawer = ({ pub, isOpen, close }: Props) => {
                   {websiteDomain}
                 </StyledText>
               </StyledText>
-              <TouchableOpacity onPress={close}>
-                <StyledText>Close</StyledText>
-              </TouchableOpacity>
             </View>
           </View>
         </View>
-      </View>
+      </Animated.View>
     </Modal>
   );
 };
