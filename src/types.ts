@@ -1,4 +1,4 @@
-interface HappyHour {
+export interface HappyHour {
   day: number;
   startTime: number;
   endTime: number;
