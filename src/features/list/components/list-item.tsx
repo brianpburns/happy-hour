@@ -8,6 +8,7 @@ import { getHappyHourDetails } from 'src/features/shared/helpers/get-happy-hour-
 import { getTextColor } from 'src/features/shared/helpers/get-text-color';
 import { usePubsContext } from 'src/state/pubs-context';
 import { Pub } from 'src/types';
+import { getDistance } from '../helpers/distance';
 
 export const ListItem = ({ pub }: { pub: Pub }) => {
   const { name, logo, id, coordinates } = pub;
@@ -15,8 +16,17 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
   const today = new Date().getDay();
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);
-  const { setDrawerOpen, selectedPub, setSelectedPub, setLatitude, setLongitude } =
-    usePubsContext();
+  const {
+    setDrawerOpen,
+    selectedPub,
+    setSelectedPub,
+    latitude,
+    setLatitude,
+    longitude,
+    setLongitude,
+  } = usePubsContext();
+
+  const distance = getDistance(coordinates, { latitude, longitude });
 
   const handlePress = () => {
     const { latitude, longitude } = coordinates;
@@ -43,6 +53,7 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
         </View>
         <View style={styles.textContainer}>
           <StyledHeading>{name}</StyledHeading>
+          <StyledText>{distance}</StyledText>
         </View>
         <View style={styles.happyHourContainer}>
           <StyledText
