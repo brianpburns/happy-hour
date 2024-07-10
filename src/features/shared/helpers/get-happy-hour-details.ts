@@ -1,13 +1,18 @@
 import { HappyHourDetails, Pub } from 'src/types';
 
-const displayTime = (time: number) => {
+export const displayTime = (time: number) => {
   if (time === 24) return '12am';
 
   return time >= 12 ? `${time - 12}pm` : `${time}am`;
 };
 
-const displayDay = (day: number) => {
+export const displayDay = (day: number) => {
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  return days[day];
+};
+
+export const displayDayFull = (day: number) => {
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   return days[day];
 };
 

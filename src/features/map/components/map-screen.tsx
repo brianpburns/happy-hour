@@ -41,7 +41,7 @@ export const MapScreen = () => {
   const [hideSearchResults, setHideSearchResults] = useState(false);
   const filterPubs = useFilterPubs();
 
-  const toggleDrawer = (id: number) => {
+  const handleMarkerPress = (id: number) => {
     setDrawerOpen(drawerOpen ? selectedPub !== id : true);
     setSelectedPub(id);
   };
@@ -98,18 +98,12 @@ export const MapScreen = () => {
           <PubMarker
             key={pub.id}
             pub={pub}
-            onPress={() => toggleDrawer(pub.id)}
+            onPress={() => handleMarkerPress(pub.id)}
             isSelected={selectedPub === pub.id}
           />
         ))}
       </MapView>
-      {selectedPubData && (
-        <PubInfoDrawer
-          pub={selectedPubData}
-          isOpen={drawerOpen}
-          close={() => setDrawerOpen(false)}
-        />
-      )}
+      {selectedPubData && <PubInfoDrawer pub={selectedPubData} isOpen={drawerOpen} />}
     </View>
   );
 };
