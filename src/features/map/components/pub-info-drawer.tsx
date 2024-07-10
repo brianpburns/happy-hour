@@ -14,6 +14,7 @@ import { StyledText } from 'src/features/shared/components/styled-text';
 import { getHappyHourDetails } from 'src/features/shared/helpers/get-happy-hour-details';
 import { getTextColor } from 'src/features/shared/helpers/get-text-color';
 import { Pub } from 'src/types';
+import { FullTimesList } from './full-times-list';
 
 interface Props {
   pub: Pub;
@@ -23,7 +24,7 @@ interface Props {
 enum DrawerHeight {
   Min = 0.1,
   Mid = 0.25,
-  Max = 0.6,
+  Max = 0.65,
 }
 
 export const PubInfoDrawer = ({ pub, isOpen }: Props) => {
@@ -59,16 +60,18 @@ export const PubInfoDrawer = ({ pub, isOpen }: Props) => {
   };
 
   const handleTouchEnd = (event: GestureResponderEvent) => {
-    if (event.nativeEvent.pageY > y) {
+    // Swipe down
+    if (event.nativeEvent.pageY > y + 10) {
       if (drawerHeight === DrawerHeight.Max) {
         setDrawerHeight(DrawerHeight.Mid);
       } else {
         setDrawerHeight(DrawerHeight.Min);
       }
-    } else {
+      // Swipe up
+    } else if (event.nativeEvent.pageY < y - 10) {
       if (drawerHeight === DrawerHeight.Mid) {
         setDrawerHeight(DrawerHeight.Max);
-      } else {
+      } else if (drawerHeight === DrawerHeight.Min) {
         setDrawerHeight(DrawerHeight.Mid);
       }
     }
@@ -93,30 +96,35 @@ export const PubInfoDrawer = ({ pub, isOpen }: Props) => {
           <View style={styles.containersContainer}>
             <View>
               <StyledHeading>{name}</StyledHeading>
-              <StyledText>
-                Happy hour:{' '}
-                {nextHappyHour ? (
-                  <StyledText style={{ color: getTextColor(nextHappyHour.status) }}>
-                    {nextHappyHourText}
+              {drawerHeight !== DrawerHeight.Min && (
+                <>
+                  <StyledText>
+                    Menu -{' '}
+                    <StyledText style={styles.link} onPress={() => Linking.openURL(website)}>
+                      {websiteDomain}
+                    </StyledText>
                   </StyledText>
-                ) : (
-                  <StyledText>None upcoming</StyledText>
-                )}
-              </StyledText>
-              {laterStartTimeDisplay && (
-                <StyledText>
-                  Later:{' '}
-                  <StyledText style={{ color: getTextColor(laterStatus) }}>
-                    {laterStartTimeDisplay} - {laterEndTimeDisplay}
+                  <StyledText>
+                    Happy hour:{' '}
+                    {nextHappyHour ? (
+                      <StyledText style={{ color: getTextColor(nextHappyHour.status) }}>
+                        {nextHappyHourText}
+                      </StyledText>
+                    ) : (
+                      <StyledText>None upcoming</StyledText>
+                    )}
                   </StyledText>
-                </StyledText>
+                  {laterStartTimeDisplay && (
+                    <StyledText>
+                      Later:{' '}
+                      <StyledText style={{ color: getTextColor(laterStatus) }}>
+                        {laterStartTimeDisplay} - {laterEndTimeDisplay}
+                      </StyledText>
+                    </StyledText>
+                  )}
+                </>
               )}
-              <StyledText>
-                Menu -{' '}
-                <StyledText style={styles.link} onPress={() => Linking.openURL(website)}>
-                  {websiteDomain}
-                </StyledText>
-              </StyledText>
+              {drawerHeight === DrawerHeight.Max && <FullTimesList happyHours={pub.happyHours} />}
             </View>
           </View>
         </View>
@@ -137,6 +145,7 @@ const makeStyles = ({ dark, colors }: Theme) => {
       height: 3,
       borderWidth: 2,
       borderColor: dark ? colors.text : colors.primary,
+      backgroundColor: dark ? colors.text : colors.primary,
       marginVertical: 16,
       alignSelf: 'center',
       width: 50,
