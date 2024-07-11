@@ -4,16 +4,18 @@ export interface HappyHour {
   endTime: number;
 }
 
+export interface Coordinate {
+  latitude: number;
+  longitude: number;
+}
+
 export interface Pub {
   id: number;
   googlePlaceId: string;
   name: string;
   website: string;
   logo: string;
-  coordinates: {
-    latitude: number;
-    longitude: number;
-  };
+  coordinates: Coordinate;
   happyHours: HappyHour[];
 }
 
