@@ -4,10 +4,7 @@
 
 ### WIP Notes
 
-- API key set up for Google Maps - only for Android and is completely open. Needs to be locked down.
 - Maps [docs](https://docs.expo.dev/versions/latest/sdk/map-view/)
-- App permissions for Android set up and test
-- Release has been successfully created for Android and pushed to the Play Console.
 - See todos in Notes app
 
 ## Installation
