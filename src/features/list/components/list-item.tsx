@@ -11,7 +11,7 @@ import { Pub } from 'src/types';
 import { getDistance } from '../helpers/distance';
 
 export const ListItem = ({ pub }: { pub: Pub }) => {
-  const { name, logo, id, coordinates } = pub;
+  const { name, logo, googlePlaceId, coordinates } = pub;
   const { nextHappyHour } = getHappyHourDetails(pub);
   const today = new Date().getDay();
   const theme = useTheme();
@@ -30,7 +30,7 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
 
   const handlePress = () => {
     const { latitude, longitude } = coordinates;
-    setSelectedPub(id);
+    setSelectedPub(googlePlaceId);
     setLatitude(latitude);
     setLongitude(longitude);
     setDrawerOpen(true);

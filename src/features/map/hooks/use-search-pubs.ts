@@ -32,7 +32,7 @@ export const useSearchPubs = () => {
   };
 
   const handleListSelection = (pub: Pub) => {
-    setSelectedPub(pub.id);
+    setSelectedPub(pub.googlePlaceId);
     setLatitude(pub.coordinates.latitude);
     setLongitude(pub.coordinates.longitude);
     setDrawerOpen(true);

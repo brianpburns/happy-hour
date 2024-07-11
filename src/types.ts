@@ -10,7 +10,6 @@ export interface Coordinate {
 }
 
 export interface Pub {
-  id: number;
   googlePlaceId: string;
   name: string;
   website: string;

@@ -7,8 +7,8 @@ interface PubContextProps {
   pubs: Pub[];
   drawerOpen: boolean;
   setDrawerOpen: (open: boolean) => void;
-  selectedPub: number | null;
-  setSelectedPub: (id: number | null) => void;
+  selectedPub: string | null;
+  setSelectedPub: (id: string | null) => void;
   latitude: number;
   setLatitude: (latitude: number) => void;
   longitude: number;
@@ -34,7 +34,7 @@ const defaultContext = {
 export const PubsContext = createContext<PubContextProps>(defaultContext);
 
 export const PubsContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [selectedPub, setSelectedPub] = useState<number | null>(null);
+  const [selectedPub, setSelectedPub] = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { latitude, setLatitude, longitude, setLongitude } = useUserLocation();
   const [filteredPubs, setFilteredPubs] = useState<Pub[]>(pubs);

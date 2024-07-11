@@ -41,9 +41,9 @@ export const MapScreen = () => {
   const [hideSearchResults, setHideSearchResults] = useState(false);
   const filterPubs = useFilterPubs();
 
-  const handleMarkerPress = (id: number) => {
-    setDrawerOpen(drawerOpen ? selectedPub !== id : true);
-    setSelectedPub(id);
+  const handleMarkerPress = (googlePlaceId: string) => {
+    setDrawerOpen(drawerOpen ? selectedPub !== googlePlaceId : true);
+    setSelectedPub(googlePlaceId);
   };
 
   const onStartSearch = () => {
@@ -96,10 +96,10 @@ export const MapScreen = () => {
       >
         {filteredPubs.map((pub) => (
           <PubMarker
-            key={pub.id}
+            key={pub.googlePlaceId}
             pub={pub}
-            onPress={() => handleMarkerPress(pub.id)}
-            isSelected={selectedPub === pub.id}
+            onPress={() => handleMarkerPress(pub.googlePlaceId)}
+            isSelected={selectedPub === pub.googlePlaceId}
           />
         ))}
       </MapView>

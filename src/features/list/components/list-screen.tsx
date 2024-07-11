@@ -15,7 +15,7 @@ export const ListScreen = () => {
       </View>
       <View style={styles.separator} />
       {filteredPubs.map((pub) => (
-        <ListItem key={pub.id} pub={pub} />
+        <ListItem key={pub.googlePlaceId} pub={pub} />
       ))}
     </View>
   );

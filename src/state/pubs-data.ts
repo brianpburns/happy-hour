@@ -2,7 +2,6 @@ import { Pub } from 'src/types';
 
 export const pubs: Pub[] = [
   {
-    id: 1,
     googlePlaceId: 'ChIJ57qrv7dzhlQRRuI062Hll2o',
     name: `Carlos O'Bryan's`,
     logo: 'https://www.kobcob.com/files/logo-1.png',
@@ -29,7 +28,6 @@ export const pubs: Pub[] = [
     ],
   },
   {
-    id: 2,
     googlePlaceId: 'ChIJi5E3G7ZzhlQR_PzPyIqgfBI',
     name: `Romer's`,
     logo: 'https://romersburgerbar.com/wp-content/themes/_tk-master/images/logo_dark.png',
