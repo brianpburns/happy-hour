@@ -53,7 +53,7 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
         </View>
         <View style={styles.textContainer}>
           <StyledHeading>{name}</StyledHeading>
-          <StyledText>{distance}</StyledText>
+          {/* <StyledText>{distance}</StyledText> */}
         </View>
         <View style={styles.happyHourContainer}>
           <StyledText
