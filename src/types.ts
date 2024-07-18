@@ -1,5 +1,10 @@
+// export interface HappyHour {
+//   day: number;
+//   startTime: number;
+//   endTime: number;
+// }
+
 export interface HappyHour {
-  day: number;
   startTime: number;
   endTime: number;
 }
@@ -15,7 +20,7 @@ export interface Pub {
   website: string;
   logo: string;
   coordinates: Coordinate;
-  happyHours: HappyHour[];
+  happyHours: Record<number, HappyHour[]>;
 }
 
 export type HappyHourStatus = 'past' | 'active' | 'soon' | 'later';
