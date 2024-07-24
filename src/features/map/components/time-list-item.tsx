@@ -11,7 +11,7 @@ export const TimeListItem = ({ hh }: { hh: HappyHour[] }) => {
       </View>
       <View style={styles.timesWrapper}>
         {hh.map((time) => (
-          <StyledText>
+          <StyledText key={time.startTime}>
             {displayTime(time.startTime)} - {displayTime(time.endTime)}
           </StyledText>
         ))}
