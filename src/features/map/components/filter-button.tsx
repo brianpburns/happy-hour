@@ -20,6 +20,8 @@ export const FilterButton = ({
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);
 
+  const filterText = filter === 'active' ? 'Now' : filter.charAt(0).toUpperCase() + filter.slice(1);
+
   return (
     <Pressable style={[styles.filter, { backgroundColor: color }]}>
       {filter === activeFilter && (
@@ -38,7 +40,7 @@ export const FilterButton = ({
           justifyContent: 'flex-start',
         }}
       >
-        {filter.charAt(0).toUpperCase() + filter.slice(1)}
+        {filterText}
       </StyledText>
     </Pressable>
   );
