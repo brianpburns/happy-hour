@@ -6,7 +6,9 @@ import { View } from './themed';
 import { getCurrentPositionAsync } from 'expo-location';
 import MapView, { PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import { useFilterPubs } from 'src/features/shared/hooks/use-filter-pubs';
-import { usePubsContext } from 'src/state/pubs-context';
+import { useSelector } from 'src/state';
+import { setDrawerOpen, setLatitude, setLongitude, setSelectedPub } from 'src/state/appSlice';
+import { useUserLocation } from 'src/state/hooks/use-user-location';
 import { useMapParams } from '../hooks/use-map-params';
 import { PubMarker } from './marker';
 import { PubInfoDrawer } from './pub-info-drawer';
@@ -25,18 +27,13 @@ const mapStyle = [
 ];
 
 export const MapScreen = () => {
+  useUserLocation();
   const { selectedPubData } = useMapParams();
-  const {
-    drawerOpen,
-    setDrawerOpen,
-    selectedPub,
-    setSelectedPub,
-    latitude,
-    longitude,
-    setLatitude,
-    setLongitude,
-    filteredPubs,
-  } = usePubsContext();
+  const drawerOpen = useSelector((state) => state.drawerOpen);
+  const selectedPub = useSelector((state) => state.selectedPub);
+  const latitude = useSelector((state) => state.latitude);
+  const longitude = useSelector((state) => state.longitude);
+  const filteredPubs = useSelector((state) => state.filteredPubs);
   const searchBarRef = useRef<TextInput>(null);
   const [hideSearchResults, setHideSearchResults] = useState(false);
   const filterPubs = useFilterPubs();
@@ -68,6 +65,8 @@ export const MapScreen = () => {
     setHideSearchResults(true);
     searchBarRef.current?.blur();
   };
+
+  console.log('latitude longitude', latitude, longitude);
 
   return (
     <View style={styles.container}>

@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { usePubsContext } from 'src/state/pubs-context';
+import { useDispatch, useSelector } from 'src/state';
+import { setDrawerOpen, setLatitude, setLongitude, setSelectedPub } from 'src/state/appSlice';
 import { Pub } from 'src/types';
 
 export const useSearchPubs = () => {
-  const { pubs } = usePubsContext();
   const [results, setResults] = useState<Pub[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const { setDrawerOpen, setLatitude, setLongitude } = usePubsContext();
-  const { setSelectedPub } = usePubsContext();
+  const pubs = useSelector((state) => state.pubs);
+  const dispatch = useDispatch();
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -32,10 +32,10 @@ export const useSearchPubs = () => {
   };
 
   const handleListSelection = (pub: Pub) => {
-    setSelectedPub(pub.id);
-    setLatitude(pub.coordinates.latitude);
-    setLongitude(pub.coordinates.longitude);
-    setDrawerOpen(true);
+    dispatch(setSelectedPub(pub.id));
+    dispatch(setLatitude(pub.coordinates.latitude));
+    dispatch(setLongitude(pub.coordinates.longitude));
+    dispatch(setDrawerOpen(true));
     setSearchTerm(pub.name);
     setResults([]);
   };

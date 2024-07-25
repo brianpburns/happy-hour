@@ -5,7 +5,8 @@ import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
-import { PubsContextProvider } from 'src/state/pubs-context';
+import { Provider } from 'react-redux';
+import { createStore } from 'src/state/createStore';
 import { useColorScheme } from './useColorScheme';
 
 export {
@@ -47,12 +48,13 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const store = createStore();
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <PubsContextProvider>
+      <Provider store={store}>
         <Slot />
-      </PubsContextProvider>
+      </Provider>
     </ThemeProvider>
   );
 }
