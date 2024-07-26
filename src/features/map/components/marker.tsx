@@ -1,10 +1,9 @@
-import { FontAwesome6 } from '@expo/vector-icons';
-import { Image, StyleSheet } from 'react-native';
+import { FontAwesome6, Ionicons } from '@expo/vector-icons';
+import { StyleSheet } from 'react-native';
 import { Marker } from 'react-native-maps';
 import { getHappyHourDetails } from 'src/features/shared/helpers/get-happy-hour-details';
 import { getIconColor } from 'src/features/shared/helpers/get-text-color';
 import { Pub } from 'src/types';
-import beerLogo from '../../../../assets/images/beer.png';
 
 interface Props {
   pub: Pub;
@@ -26,7 +25,7 @@ export const PubMarker = ({ pub, onPress, isSelected }: Props) => {
       tracksViewChanges={false}
     >
       <FontAwesome6 name="location-pin" size={45} style={{ color }} />
-      <Image source={beerLogo} style={styles.beerIcon} />
+      <Ionicons name="beer-outline" size={22} color={color} style={styles.beerIcon} />
     </Marker>
   );
 };
@@ -38,6 +37,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 5,
     top: 4,
+    paddingLeft: 3,
     backgroundColor: 'white',
     borderRadius: 20,
   },

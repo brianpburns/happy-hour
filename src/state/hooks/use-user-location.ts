@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 
 import { getCurrentPositionAsync, requestForegroundPermissionsAsync } from 'expo-location';
+import { useDispatch, useSelector } from '..';
+import { setLatitude, setLongitude, setUserLocation } from '../appSlice';
 
 /**
- * This hook should only be used by PubsContextProvider.
+ * This hook should only run once
  */
 export const useUserLocation = () => {
-  const [latitude, setLatitude] = useState(49);
-  const [longitude, setLongitude] = useState(-123);
+  const dispatch = useDispatch();
+  const userLocationSet = useSelector((state) => state.userLocationSet);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -15,19 +17,24 @@ export const useUserLocation = () => {
       const { status } = await requestForegroundPermissionsAsync();
 
       if (status !== 'granted') {
+        // TODO: Handle error - show message
         setError('Permission to access location was denied');
+        dispatch(setUserLocation());
         return;
       }
 
       const { coords } = await getCurrentPositionAsync({});
       const { latitude, longitude } = coords;
 
-      setLatitude(latitude);
-      setLongitude(longitude);
+      dispatch(setLatitude(latitude));
+      dispatch(setLongitude(longitude));
+      dispatch(setUserLocation());
     };
 
-    getLocation();
+    if (!userLocationSet) {
+      getLocation();
+    }
   }, []);
 
-  return { latitude, setLatitude, longitude, setLongitude, error };
+  return { error };
 };

@@ -1,13 +1,15 @@
-import { usePubsContext } from 'src/state/pubs-context';
+import { useDispatch, useSelector } from 'src/state';
+import { setFilteredPubs } from 'src/state/appSlice';
 import { HappyHourStatus } from 'src/types';
 import { getHappyHourDetails } from '../helpers/get-happy-hour-details';
 
 export const useFilterPubs = () => {
-  const { pubs, setFilteredPubs } = usePubsContext();
+  const dispatch = useDispatch();
+  const pubs = useSelector((state) => state.pubs);
 
   return (status: HappyHourStatus | 'all') => {
     if (status === 'all') {
-      setFilteredPubs(pubs);
+      dispatch(setFilteredPubs(pubs));
       return;
     }
 
@@ -17,6 +19,6 @@ export const useFilterPubs = () => {
       return status === nextHappyHour?.status;
     });
 
-    setFilteredPubs(filtered);
+    dispatch(setFilteredPubs(filtered));
   };
 };

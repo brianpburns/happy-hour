@@ -2,11 +2,11 @@ import Constants from 'expo-constants';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Filters } from 'src/features/map/components/filters';
-import { usePubsContext } from 'src/state/pubs-context';
+import { useSelector } from 'src/state';
 import { ListItem } from './list-item';
 
 export const ListScreen = () => {
-  const { filteredPubs } = usePubsContext();
+  const filteredPubs = useSelector((state) => state.filteredPubs);
 
   return (
     <View style={styles.container}>

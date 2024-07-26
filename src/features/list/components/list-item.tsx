@@ -6,7 +6,8 @@ import { StyledHeading } from 'src/features/shared/components/styled-heading';
 import { StyledText } from 'src/features/shared/components/styled-text';
 import { getHappyHourDetails } from 'src/features/shared/helpers/get-happy-hour-details';
 import { getTextColor } from 'src/features/shared/helpers/get-text-color';
-import { usePubsContext } from 'src/state/pubs-context';
+import { useDispatch, useSelector } from 'src/state';
+import { setDrawerOpen, setLatitude, setLongitude, setSelectedPub } from 'src/state/appSlice';
 import { Pub } from 'src/types';
 import { getDistance } from '../helpers/distance';
 
@@ -16,24 +17,18 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
   const today = new Date().getDay();
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);
-  const {
-    setDrawerOpen,
-    selectedPub,
-    setSelectedPub,
-    latitude,
-    setLatitude,
-    longitude,
-    setLongitude,
-  } = usePubsContext();
+  const latitude = useSelector((state) => state.latitude);
+  const longitude = useSelector((state) => state.longitude);
+  const dispatch = useDispatch();
 
   const distance = getDistance(coordinates, { latitude, longitude });
 
   const handlePress = () => {
     const { latitude, longitude } = coordinates;
-    setSelectedPub(id);
-    setLatitude(latitude);
-    setLongitude(longitude);
-    setDrawerOpen(true);
+    dispatch(setSelectedPub(id));
+    dispatch(setLatitude(latitude));
+    dispatch(setLongitude(longitude));
+    dispatch(setDrawerOpen(true));
     router.push({ pathname: `/(tabs)` });
   };
 
@@ -49,7 +44,7 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.listItem}>
         <View style={styles.imageContainer}>
-          <Image source={{ uri: logo }} style={styles.image} />
+          <Image source={{ uri: logo, headers: { Accept: '*/*' } }} style={styles.image} />
         </View>
         <View style={styles.textContainer}>
           <StyledHeading>{name}</StyledHeading>
