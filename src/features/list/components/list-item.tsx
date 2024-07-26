@@ -44,7 +44,7 @@ export const ListItem = ({ pub }: { pub: Pub }) => {
     <TouchableOpacity onPress={handlePress}>
       <View style={styles.listItem}>
         <View style={styles.imageContainer}>
-          <Image source={{ uri: logo }} style={styles.image} />
+          <Image source={{ uri: logo, headers: { Accept: '*/*' } }} style={styles.image} />
         </View>
         <View style={styles.textContainer}>
           <StyledHeading>{name}</StyledHeading>

@@ -17,6 +17,7 @@ export const useUserLocation = () => {
       const { status } = await requestForegroundPermissionsAsync();
 
       if (status !== 'granted') {
+        // TODO: Handle error - show message
         setError('Permission to access location was denied');
         dispatch(setUserLocation());
         return;

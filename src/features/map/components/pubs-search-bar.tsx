@@ -51,6 +51,7 @@ export const PubsSearchBar = forwardRef<TextInput, Props>(
             hideResults={hideSearchResults}
             onPress={onStartSearch}
             onChangeText={(text) => search(text)}
+            inputContainerStyle={{ borderWidth: 0 }}
             renderTextInput={() => (
               <View style={styles.searchbar}>
                 {searchTerm ? (
@@ -59,7 +60,7 @@ export const PubsSearchBar = forwardRef<TextInput, Props>(
                   <Ionicons
                     name="beer-outline"
                     size={16}
-                    color="white"
+                    color={theme.colors.text}
                     onPress={() => searchBarRef.current?.focus()}
                   />
                 )}
@@ -125,6 +126,8 @@ const makeStyles = ({ colors }: Theme) => {
       color: colors.text,
       paddingLeft: 15,
       borderRadius: 20,
+      borderWidth: 1,
+      borderColor: colors.text,
       height: 40,
     },
     closeButton: {
