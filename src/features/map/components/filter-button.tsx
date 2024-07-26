@@ -23,7 +23,10 @@ export const FilterButton = ({
   const filterText = filter === 'active' ? 'Now' : filter.charAt(0).toUpperCase() + filter.slice(1);
 
   return (
-    <Pressable style={[styles.filter, { backgroundColor: color }]}>
+    <Pressable
+      style={[styles.filter, { backgroundColor: color }]}
+      onPress={() => handleFilterPress(filter)}
+    >
       {filter === activeFilter && (
         <Ionicons
           name="beer-outline"
@@ -33,7 +36,6 @@ export const FilterButton = ({
         />
       )}
       <StyledText
-        onPress={() => handleFilterPress(filter)}
         style={{
           fontWeight: 'bold',
           color: 'white',
