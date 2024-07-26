@@ -6,7 +6,7 @@ export default {
     slug: 'happy-hour',
     version: '1.0.0',
     orientation: 'portrait',
-    icon: './assets/images/icon.png',
+    icon: './assets/images/beer.png',
     scheme: 'myapp',
     userInterfaceStyle: 'automatic',
     splash: {
@@ -27,7 +27,7 @@ export default {
         },
       },
       adaptiveIcon: {
-        foregroundImage: './assets/images/adaptive-icon.png',
+        foregroundImage: './assets/images/beer.png',
         backgroundColor: '#ffffff',
       },
       permissions: ['android.permission.ACCESS_FINE_LOCATION'],
@@ -36,7 +36,7 @@ export default {
     web: {
       bundler: 'metro',
       output: 'static',
-      favicon: './assets/images/favicon.png',
+      favicon: './assets/images/beer.png',
     },
     plugins: ['expo-router'],
     experiments: {
